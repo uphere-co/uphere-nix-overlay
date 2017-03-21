@@ -126,4 +126,59 @@ in self: super: {
 	 
       "fficxx-runtime" = self.callPackage (import (fficxxSrc + "/fficxx-runtime")) {};
       "fficxx" = self.callPackage (import (fficxxSrc + "/fficxx")) {};
+
+      "product-profunctors" = self.callPackage
+         ({ mkDerivation, base, contravariant, profunctors, stdenv, tagged
+          , template-haskell
+          }:
+          mkDerivation {
+            pname = "product-profunctors";
+            version = "0.7.1.0";
+            src = fetchgit {
+              url = "git://github.com/tomjaguarpaw/product-profunctors.git";
+              rev = "4029eafc74f494d5749b1bbd30bf6e87e9bb44ba";
+              sha256 = "15vvm2105jwlg2kfjszl35jfavgndhv7a1cxmlpadd14mga2jzfi";
+            };
+            libraryHaskellDepends = [
+              base contravariant profunctors tagged template-haskell
+            ];
+            testHaskellDepends = [ base profunctors ];
+            homepage = "https://github.com/tomjaguarpaw/product-profunctors";
+            description = "product-profunctors";
+            license = stdenv.lib.licenses.bsd3;
+          }) {};
+          
+      "opaleye" = self.callPackage
+         ({ mkDerivation, aeson, attoparsec, base, base16-bytestring
+          , bytestring, case-insensitive, containers, contravariant, multiset
+          , postgresql-simple, pretty, product-profunctors, profunctors
+          , QuickCheck, semigroups, stdenv, text, time, time-locale-compat
+          , transformers, uuid, void
+          }:
+          mkDerivation {
+            pname = "opaleye";
+            version = "0.5.0.0";
+            src = fetchgit {
+              url = "git://github.com/tomjaguarpaw/haskell-opaleye.git";
+              rev = "738ed9523884cb97af883222cbbe80184f8d5569";
+              sha256 = "1g9y0nm2qsq5rdkifhxr89fjagnzxilf0x9lzmqpz79lcww91k0h";
+            };
+            libraryHaskellDepends = [
+              aeson attoparsec base base16-bytestring bytestring case-insensitive
+              contravariant postgresql-simple pretty product-profunctors
+              profunctors semigroups text time time-locale-compat transformers
+              uuid void
+            ];
+            testHaskellDepends = [
+              base containers contravariant multiset postgresql-simple
+              product-profunctors profunctors QuickCheck semigroups time
+            ];
+            homepage = "https://github.com/tomjaguarpaw/haskell-opaleye";
+            description = "An SQL-generating DSL targeting PostgreSQL";
+            license = stdenv.lib.licenses.bsd3;
+            doCheck = false;
+          }) {};
+
+
+
     }
