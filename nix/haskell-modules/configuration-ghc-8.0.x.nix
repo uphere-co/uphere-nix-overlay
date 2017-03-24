@@ -15,6 +15,8 @@ let
     };
 
 in self: super: {
+      "distributed-process-lifted" = pkgs.haskell.lib.dontCheck super.distributed-process-lifted;
+
       "lbfgs" = self.callPackage
         ({ mkDerivation, array, base, stdenv, vector }:
          mkDerivation {
