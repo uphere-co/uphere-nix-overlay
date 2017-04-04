@@ -14,7 +14,6 @@ stdenv.mkDerivation {
   checkTarget = "test";
   doCheck = false;
 
-  buildFlags= [ ''CFLAGS="-D__TBB_VARIADIC_PARALLEL_INVOKE"'' ];
   installPhase = ''
     mkdir -p $out/{lib,share/doc}
     cp "build/"*release*"/"*${SHLIB_EXT}* $out/lib/
