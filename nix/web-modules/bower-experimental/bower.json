@@ -7,6 +7,7 @@
     "private": true,
     "dependencies": {
         "vaadin-grid": "v2.0.0",
+        "vaadin-combo-box": "v1.3.3",
 
         "polymer": "1.6.1",
         

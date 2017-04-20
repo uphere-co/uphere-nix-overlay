@@ -2,6 +2,7 @@
 { fetchbower, buildEnv }:
 buildEnv { name = "bower-env"; ignoreCollisions = true; paths = [
   (fetchbower "vaadin-grid" "2.0.0" "v2.0.0" "0n5k4724ks81ascwwzpk36gqpq8w7av39s3iqxji0krwhs4hw46m")
+  (fetchbower "vaadin-combo-box" "1.3.3" "v1.3.3" "1r0mm0mc2djb3f6dw66ga8xc3qs9apwb8inr6fnkdyhw0cam9qvv")
   (fetchbower "polymer" "1.6.1" "1.6.1" "0xbjwvrnmz2yr874nmymbs92ml4b7x0r54ggq29kjs9r0f6qc6hp")
   (fetchbower "app-layout" "0.10.3" "0.10.3" "0vf4wxrlznfv1866n7yycrc3kphxq1afgnpmzy28xlcwdfdgwk0f")
   (fetchbower "app-route" "PolymerElements/app-route#0.9.3" "PolymerElements/app-route#0.9.3" "1gd1q16brk4mfc65x8sjxzqbqkil0zqw62arkg3kk8c6k5sncykh")
@@ -56,6 +57,7 @@ buildEnv { name = "bower-env"; ignoreCollisions = true; paths = [
   (fetchbower "paper-drawer-panel" "1.0.11" "1.0.11" "0xraa6d5p5lfdzg8a00ms2mjh7cdwpyc71jpy8q4xsk6mkhm3g39")
   (fetchbower "paper-card" "PolymerElements/paper-card#1.1.4" "PolymerElements/paper-card#1.1.4" "0n5s16pw4crm5vw0i6lnl34ssw4d03pz8m91izzvhh15r91nw714")
   (fetchbower "flag-icon" "Protoss78/flag-icon#0.12.0" "Protoss78/flag-icon#0.12.0" "1yqdlyz1drb1i4k2s9v6xw4gv9hyrdjjjd640v687a3713zbpgfh")
+  (fetchbower "iron-list" "polymerelements/iron-list#1.4.5" "polymerelements/iron-list#^1.0.0" "1bivp0h5q2yc4pvzbm30a74wjxzmy48jq58l2qgsfcy8l8bx0k5d")
   (fetchbower "webcomponentsjs" "0.7.24" "^0.7.20" "1ryjx9wy874d6g74b5ckwa0dmjc734d6pdh75gar4rnw2dbnbm0m")
   (fetchbower "neon-animation" "polymerelements/neon-animation#1.2.5" "polymerelements/neon-animation#^1.0.0" "0xwx3banqgng7qzqkdd0ysq3b4b0qb6ar05zshd5p1zaxjf68khc")
   (fetchbower "paper-ripple" "PolymerElements/paper-ripple#1.0.10" "PolymerElements/paper-ripple#^1.0.0" "0nk31vjiqw3dh6bzi3a19c3i5ij4c32ldqndqr03ivwnqg6p8vkq")
