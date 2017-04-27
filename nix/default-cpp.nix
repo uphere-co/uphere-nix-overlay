@@ -138,11 +138,11 @@ rec {
 
     fmt = stdenv.mkDerivation rec {
       name = "fmt-${version}";
-      version = "0d25f6f";
+      version = "a000061";
       src = fetchgit {
-        url = "https://github.com/fmtlib/fmt.git";
-	rev = "0d25f6fcbbf0a867b939a5501965ee4462b21ee6";
-	sha256 = "179qcshc7v125lc1cgy1sixczrpjvg4grnqxwjxx8gwm4g46bvm8";
+        url = "https://github.com/fmtlib/fmt";
+        rev = "a00006119fe80c6e2e66e280b44f3921e4a965b9";
+	sha256 = "0mspga7cdldkyir8iilqz0pkcrmgnr87jqixq1pr9fcgbcbmqp4g";
       };
       buildInputs = [ cmake ];
       cmakeFlags = ["-DBUILD_SHARED_LIBS=TRUE"];
@@ -233,6 +233,17 @@ rec {
       '';
 
 
+    };
+    flatbuffers = stdenv.mkDerivation rec {
+      name = "flatbuffers";
+      version = "1.6.0";
+      src = fetchgit {
+        url = "https://github.com/google/flatbuffers.git";
+        rev = "cebdad4";
+        sha256 = "0jwyrkqq2lkpifaiyfx2w8gasbv0l6qlnmrkdkn3bm5gxjl8rfj3";
+      };
+      buildInputs = [ cmake ];
+      enableParallelBuilding = true;
     };
 
 
