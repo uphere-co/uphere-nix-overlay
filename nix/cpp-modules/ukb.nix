@@ -1,4 +1,4 @@
-{ stdenv, fetchgit, boost, bash }:
+{ stdenv, fetchgit, boost }:
 
 let ukbsrc = fetchgit {
       url = "https://github.com/asoroa/ukb.git";
@@ -10,10 +10,16 @@ in
 stdenv.mkDerivation {
   name = "ukb-3.0";
   src = ukbsrc + "/src";
-  buildInputs = [ boost bash ];
-  configureFlags = ["--with-boost-include=${boost.dev}/include"];
+  buildInputs = [ boost ];
   patchPhase = ''
-    sed -i UKB-VERSION-GEN -e 's@/bin/bash@${bash}/bin/bash@' 
+    sed -i UKB-VERSION-GEN -e 's@/bin/bash@/bin/sh@' 
+  '';
+  configureFlags = [ 
+                     "--with-boost-include=${boost.dev}/include"
+                     "--with-boost-lib=${boost}/lib"
+                   ];
+  postConfigure = ''
+    sed -i Makefile -e 's@$(STATIC)@@'
   '';
   #buildPhase = ''
   #  exit -1;  
