@@ -1,9 +1,9 @@
 { stdenv, fetchgit, fetchurl, boost }:
 
 let ukbsrc = fetchgit {
-      url = "https://github.com/asoroa/ukb.git";
-      rev = "4374807259e43b91c749013b27f0e7080c0ad17f";
-      sha256 = "18fi76mv0f4ywlzhwp21ba3x3pvv5n8ccqvn2p1fbqi2sg6ml96a";
+      url = "https://github.com/uphere-co/ukb.git";
+      rev = "960e92deca5f8be05eec5ac9aaa1256d60dde514";
+      sha256 = "052dlbi07vfankhawbqsx18fp142mm2qnhdfvs2h0s34jfa3qd1p";
     };
     
     lkbsrc = fetchurl {
@@ -17,16 +17,16 @@ stdenv.mkDerivation {
   src = ukbsrc + "/src";
   buildInputs = [ boost ];
   enableParallelBuilding = true;
-  patchPhase = ''
-    sed -i UKB-VERSION-GEN -e 's@/bin/bash@/bin/sh@' 
-  '';
+  #patchPhase = ''
+  #  sed -i UKB-VERSION-GEN -e 's@/bin/bash@/bin/sh@' 
+  #'';
   configureFlags = [ 
                      "--with-boost-include=${boost.dev}/include"
                      "--with-boost-lib=${boost}/lib"
                    ];
-  postConfigure = ''
-    sed -i Makefile -e 's@$(STATIC)@@'
-  '';
+  #postConfigure = ''
+  #  sed -i Makefile -e 's@$(STATIC)@@'
+  #'';
 
   postInstall = ''
     tar -xjvf ${lkbsrc}
