@@ -181,6 +181,23 @@ in self: super: {
             doCheck = false;
           }) {};
 
-
+      "yayaml" = self.callPackage
+        ({ mkDerivation, attoparsec, base, bytestring, filepath, scientific
+         , stdenv, text, transformers
+         }:
+         mkDerivation {
+           pname = "yayaml";
+           version = "0.0.999";
+           src = fetchgit {
+             url = "https://github.com/uphere-co/yayaml.git";
+             rev = "653a69fe44e6b862ebcb273a38588b757abc4503";
+             sha256 = "0hd3k72ab1d2jc42x5a4g3sjkan180cdwc1ghlzy93kbabam8vbg";
+           };
+           libraryHaskellDepends = [
+             attoparsec base bytestring filepath scientific text transformers
+           ];
+           description = "Yet Another YAML library";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
 
     }
