@@ -2,8 +2,8 @@
 
 let ukbsrc = fetchgit {
       url = "https://github.com/uphere-co/ukb.git";
-      rev = "960e92deca5f8be05eec5ac9aaa1256d60dde514";
-      sha256 = "052dlbi07vfankhawbqsx18fp142mm2qnhdfvs2h0s34jfa3qd1p";
+      rev = "6bd26ef75ff8ead26ccfbda5c58832e4eb41bf1b";
+      sha256 = "10cnaca398p08l2xvs7if7bk2dh7drz1r60zq1h1zah3b25zc03m";
     };
     
     lkbsrc = fetchurl {
@@ -17,17 +17,10 @@ stdenv.mkDerivation {
   src = ukbsrc + "/src";
   buildInputs = [ boost ];
   enableParallelBuilding = true;
-  #patchPhase = ''
-  #  sed -i UKB-VERSION-GEN -e 's@/bin/bash@/bin/sh@' 
-  #'';
   configureFlags = [ 
                      "--with-boost-include=${boost.dev}/include"
                      "--with-boost-lib=${boost}/lib"
                    ];
-  #postConfigure = ''
-  #  sed -i Makefile -e 's@$(STATIC)@@'
-  #'';
-
   postInstall = ''
     tar -xjvf ${lkbsrc}
     $out/bin/compile_kb -o wn30.bin lkb_sources/30/wnet30_rels.txt
