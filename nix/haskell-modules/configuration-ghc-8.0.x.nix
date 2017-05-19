@@ -10,8 +10,8 @@ let
     };
     fficxxSrc = fetchgit {
       url = "git://github.com/wavewave/fficxx.git";
-      rev = "61333fa2edd3071174302a840e810b372c6809b3";
-      sha256 = "1bylcb4l1rkl1bxg48dmvl9mlpnvf3l2v1a9yi0rb8526g00rrs4";
+      rev = "c3d9f9863cabe4ce0026ffd4adbeeb413a35be9e";
+      sha256 = "1fv9fbqvfnn027k0zprh3cnmm92ql4f8jm12fhi22simj09my8v2";
     };
 
 in self: super: {
