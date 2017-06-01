@@ -273,4 +273,27 @@ in self: super: {
            hydraPlatforms = stdenv.lib.platforms.none;
          }) {jdk = pkgs.jdk;};
 
+      "svm-simple" = self.callPackage
+        ({ mkDerivation, base, binary, bindings-svm, bytestring, containers
+         , deepseq, directory, monad-par, mwc-random, stdenv, vector
+         }:
+         mkDerivation {
+           pname = "svm-simple";
+           version = "0.2.7";
+           src = fetchgit {
+             url = "git://github.com/wavewave/Simple-SVM.git";
+             rev = "375552fb4c7100309e1f5b14c40f80a9d8e77121";
+             sha256 = "1gqa0r5v06dg84sb8rwf7ml2bl7la76clgr1x9iwf1smxgzr5na0";
+           };
+           
+           libraryHaskellDepends = [
+             base binary bindings-svm bytestring containers deepseq directory
+             monad-par mwc-random vector
+           ];
+           doHaddock = false;
+           homepage = "http://github.com/aleator/Simple-SVM";
+           description = "Medium level, simplified, bindings to libsvm";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
+
     }
