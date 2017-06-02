@@ -5,8 +5,8 @@ with pkgs;
 let
     inline-java-src = fetchgit {
       url = "git://github.com/wavewave/inline-java.git";
-      rev = "593cdf3a02a866c6822539c0e89adc8ed913a9ba";
-      sha256 = "1xngx5i7gpg4h33w6iznrphd1ji0f8dmf5lb5awsnxp72kszvqi5";
+      rev = "dc8bd3a2ee8ecc53f5dbd8462db78a03345f2cfe";
+      sha256 = "04c8qhbp7b7lcs1cq1i4v94bwplvznq9nv4qsyky68ww33686sl1";
     };
     llvmGeneralSrc = fetchgit {
       url = "git://github.com/wavewave/llvm-general.git";
@@ -15,8 +15,8 @@ let
     };
     fficxxSrc = fetchgit {
       url = "git://github.com/wavewave/fficxx.git";
-      rev = "c3d9f9863cabe4ce0026ffd4adbeeb413a35be9e";
-      sha256 = "1fv9fbqvfnn027k0zprh3cnmm92ql4f8jm12fhi22simj09my8v2";
+      rev = "eeb2d236dda5ae422ce80d4b6bcd851fd9e70499";
+      sha256 = "0d0wckmy5vs3vq6gh1sawxzmq169nz9kpg4wq5ap9fz5k18h54wm";
     };
 
 in self: super: {
@@ -239,7 +239,7 @@ in self: super: {
          }:
          mkDerivation {
            pname = "jvm";
-           version = "0.2.0";
+           version = "0.2.2";
            src = "${inline-java-src}/jvm";
            libraryHaskellDepends = [
              base bytestring distributed-closure jni singletons text vector
@@ -253,16 +253,17 @@ in self: super: {
          }) { jdk = pkgs.jdk; };
 
       "jni" = self.callPackage
-        ({ mkDerivation, base, bytestring, choice, containers, inline-c
-         , singletons, thread-local-storage
+        ({ mkDerivation, base, bytestring, choice, constraints, containers
+         , inline-c, singletons, thread-local-storage
          , cpphs, jdk
          }:
          mkDerivation {
            pname = "jni";
            src = "${inline-java-src}/jni";
-           version = "0.3.0";
+           version = "0.3.1";
            libraryHaskellDepends = [
-             base bytestring choice containers inline-c singletons thread-local-storage
+             base bytestring choice constraints containers inline-c
+             singletons thread-local-storage
            ];
            setupHaskellDepends = [ cpphs ];
            configureFlags = ["--extra-lib-dirs=${jdk.jre}/lib/openjdk/jre/lib/amd64/server"]; 
