@@ -1,4 +1,4 @@
-{ pkgs ? (import <nixpkgs>{}) }:
+{ pkgs }:
 
 with pkgs;
 
@@ -274,7 +274,12 @@ in self: super: {
            hydraPlatforms = stdenv.lib.platforms.none;
          }) {jdk = pkgs.jdk;};
 
-      "bindings-svm" = pkgs.haskell.lib.appendConfigureFlag (pkgs.haskell.lib.appendPatch super.bindings-svm ./bindings-svm-openmp.patch) "--gcc-option=-fopenmp";
+      "bindings-svm" = pkgs.haskell.lib.overrideCabal super.bindings-svm (drv: {
+        patches = [./bindings-svm-openmp.patch];
+        librarySystemDepends = [ pkgs.libsvm ];
+      });
+
+       #pkgs.haskell.lib.appendConfigureFlag (pkgs.haskell.lib.appendPatch super.bindings-svm ./bindings-svm-openmp.patch) "--ghc-option=-optc=-fopenmp";
 
       "svm-simple" = self.callPackage
         ({ mkDerivation, base, binary, bindings-svm, bytestring, containers
