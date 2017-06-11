@@ -274,7 +274,7 @@ in self: super: {
            hydraPlatforms = stdenv.lib.platforms.none;
          }) {jdk = pkgs.jdk;};
 
-      "bindings-svm" = pkgs.haskell.lib.appendPatch super.bindings-svm ./bindings-svm-openmp.patch ;
+      "bindings-svm" = pkgs.haskell.lib.appendConfigureFlag (pkgs.haskell.lib.appendPatch super.bindings-svm ./bindings-svm-openmp.patch) "--gcc-option=-fopenmp";
 
       "svm-simple" = self.callPackage
         ({ mkDerivation, base, binary, bindings-svm, bytestring, containers
