@@ -274,6 +274,8 @@ in self: super: {
            hydraPlatforms = stdenv.lib.platforms.none;
          }) {jdk = pkgs.jdk;};
 
+      "bindings-svm" = pkgs.haskell.lib.appendPatch super.bindings-svm ./bindings-svm-openmp.patch ;
+
       "svm-simple" = self.callPackage
         ({ mkDerivation, base, binary, bindings-svm, bytestring, containers
          , deepseq, directory, monad-par, mwc-random, stdenv, vector
