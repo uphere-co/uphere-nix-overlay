@@ -1,0 +1,68 @@
+diff -rupN a/bindings-svm.cabal b/bindings-svm.cabal
+--- a/bindings-svm.cabal	2017-06-11 04:52:19.136930635 +0000
++++ b/bindings-svm.cabal	2017-06-11 07:17:53.510184369 +0000
+@@ -36,14 +36,14 @@ cabal-version:       >= 1.2.3
+ library
+   hs-source-dirs:
+     src
+-  include-dirs:
+-    cbits/
+-  install-includes:
+-    cbits/svm.h
+-  c-sources:
+-    cbits/svm.cpp
+-  includes:
+-    cbits/svm.h
++  --include-dirs:
++  --   cbits/
++  --install-includes:
++  --  cbits/svm.h
++  --c-sources:
++  --  cbits/svm.cpp
++  --includes:
++  --  cbits/svm.h
+   exposed-modules:
+     Bindings.SVM
+   build-depends:
+@@ -52,4 +52,4 @@ library
+   ghc-options:
+     -Wall
+   extra-libraries:
+-    stdc++
++    stdc++, svm, gomp
+diff -rupN a/cbits/svm.cpp b/cbits/svm.cpp
+--- a/cbits/svm.cpp	2011-07-18 08:03:14.000000000 +0000
++++ b/cbits/svm.cpp	2017-06-11 06:10:13.259782178 +0000
+@@ -1267,6 +1267,7 @@ public:
+ 		int start, j;
+ 		if((start = cache->get_data(i,&data,len)) < len)
+ 		{
++#pragma omp parallel for private(j) schedule(guided)                    
+ 			for(j=start;j<len;j++)
+ 				data[j] = (Qfloat)(y[i]*y[j]*(this->*kernel_function)(i,j));
+ 		}
+@@ -2440,13 +2441,15 @@ double svm_get_svr_probability(const svm
+ 
+ double svm_predict_values(const svm_model *model, const svm_node *x, double* dec_values)
+ {
++        int i;
+ 	if(model->param.svm_type == ONE_CLASS ||
+ 	   model->param.svm_type == EPSILON_SVR ||
+ 	   model->param.svm_type == NU_SVR)
+ 	{
+ 		double *sv_coef = model->sv_coef[0];
+ 		double sum = 0;
+-		for(int i=0;i<model->l;i++)
++#pragma omp parallel for private(i) reduction(+:sum) schedule(guided)                
++		for(i=0;i<model->l;i++)
+ 			sum += sv_coef[i] * Kernel::k_function(x,model->SV[i],model->param);
+ 		sum -= model->rho[0];
+ 		*dec_values = sum;
+@@ -2463,6 +2466,7 @@ double svm_predict_values(const svm_mode
+ 		int l = model->l;
+ 		
+ 		double *kvalue = Malloc(double,l);
++#pragma omp parallel for private(i) schedule(guided)                
+ 		for(i=0;i<l;i++)
+ 			kvalue[i] = Kernel::k_function(x,model->SV[i],model->param);
+ 

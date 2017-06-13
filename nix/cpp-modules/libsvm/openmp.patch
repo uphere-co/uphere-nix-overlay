@@ -1,13 +1,24 @@
 diff -rupN a/Makefile b/Makefile
 --- a/Makefile	2014-11-14 22:51:53.000000000 +0000
-+++ b/Makefile	2017-06-11 03:34:59.341480545 +0000
-@@ -1,5 +1,5 @@
++++ b/Makefile	2017-06-11 07:09:02.454858474 +0000
+@@ -1,5 +1,6 @@
  CXX ?= g++
 -CFLAGS = -Wall -Wconversion -O3 -fPIC
 +CFLAGS = -Wall -Wconversion -O3 -fPIC -fopenmp
++AR = ar
  SHVER = 2
  OS = $(shell uname)
  
+@@ -11,7 +12,8 @@ lib: svm.o
+ 	else \
+ 		SHARED_LIB_FLAG="-shared -Wl,-soname,libsvm.so.$(SHVER)"; \
+ 	fi; \
+-	$(CXX) $${SHARED_LIB_FLAG} svm.o -o libsvm.so.$(SHVER)
++	$(CXX) $${SHARED_LIB_FLAG} svm.o -o libsvm.so.$(SHVER); \
++	$(AR) rcs libsvm.a svm.o
+ 
+ svm-predict: svm-predict.c svm.o
+ 	$(CXX) $(CFLAGS) svm-predict.c svm.o -o svm-predict -lm
 diff -rupN a/svm.cpp b/svm.cpp
 --- a/svm.cpp	2014-11-14 22:52:01.000000000 +0000
 +++ b/svm.cpp	2017-06-12 18:23:00.977864048 +0000
