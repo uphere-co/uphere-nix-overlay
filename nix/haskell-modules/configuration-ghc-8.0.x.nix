@@ -155,7 +155,7 @@ in self: super: {
             license = stdenv.lib.licenses.bsd3;
           }) {};
           
-      "opaleye" = self.callPackage
+      "opaleye_0_5_0_0" = self.callPackage
          ({ mkDerivation, aeson, attoparsec, base, base16-bytestring
           , bytestring, case-insensitive, containers, contravariant, multiset
           , postgresql-simple, pretty, product-profunctors, profunctors
