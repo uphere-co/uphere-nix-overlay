@@ -18,6 +18,11 @@ let
       rev = "eeb2d236dda5ae422ce80d4b6bcd851fd9e70499";
       sha256 = "0d0wckmy5vs3vq6gh1sawxzmq169nz9kpg4wq5ap9fz5k18h54wm";
     };
+    protocol-buffers-src = fetchgit {
+      url = "git://github.com/k-bx/protocol-buffers.git";
+      rev = "52a4a0644c313627a3091cfa3afe6552bb3c7e74";
+      sha256 = "1i97gs2kdifxjfq2a47fq88qjps66i2cnvimjfxsfgq1713ily2f";
+    };
 
 in self: super: {
       "distributed-process-lifted" = pkgs.haskell.lib.dontCheck super.distributed-process-lifted;
@@ -279,7 +284,6 @@ in self: super: {
         librarySystemDepends = [ pkgs.libsvm ];
       });
 
-       #pkgs.haskell.lib.appendConfigureFlag (pkgs.haskell.lib.appendPatch super.bindings-svm ./bindings-svm-openmp.patch) "--ghc-option=-optc=-fopenmp";
 
       "svm-simple" = self.callPackage
         ({ mkDerivation, base, binary, bindings-svm, bytestring, containers
@@ -303,5 +307,91 @@ in self: super: {
            description = "Medium level, simplified, bindings to libsvm";
            license = stdenv.lib.licenses.bsd3;
          }) {};
+
+      "protocol-buffers" = self.callPackage
+        ({ mkDerivation, array, base, binary, bytestring, containers
+         , directory, filepath, mtl, parsec, stdenv, syb, utf8-string
+         }:
+         mkDerivation {
+           pname = "protocol-buffers";
+           version = "2.4.3";
+           src = "${protocol-buffers-src}";
+           libraryHaskellDepends = [
+             array base binary bytestring containers directory filepath mtl
+             parsec syb utf8-string
+           ];
+           homepage = "https://github.com/k-bx/protocol-buffers";
+           description = "Parse Google Protocol Buffer specifications";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
+         
+      "protocol-buffers-descriptor" = self.callPackage
+        ({ mkDerivation, base, bytestring, containers, protocol-buffers
+         , stdenv
+         }:
+         mkDerivation {
+           pname = "protocol-buffers-descriptor";
+           version = "2.4.3";
+           src = "${protocol-buffers-src}/descriptor";           
+           libraryHaskellDepends = [
+             base bytestring containers protocol-buffers
+           ];
+           homepage = "https://github.com/k-bx/protocol-buffers";
+           description = "Text.DescriptorProto.Options and code generated from the Google Protocol Buffer specification";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
+
+
+      "hprotoc" = self.callPackage
+        ({ mkDerivation, alex, array, base, binary, bytestring, containers
+         , directory, filepath, haskell-src-exts, mtl, parsec
+         , protocol-buffers, protocol-buffers-descriptor, stdenv
+         , utf8-string
+         }:
+         mkDerivation {
+           pname = "hprotoc";
+           version = "2.4.3";
+           src = "${protocol-buffers-src}/hprotoc";
+           isLibrary = true;
+           isExecutable = true;
+           libraryHaskellDepends = [
+             array base binary bytestring containers directory filepath
+             haskell-src-exts mtl parsec protocol-buffers
+             protocol-buffers-descriptor utf8-string
+           ];
+           libraryToolDepends = [ alex ];
+           executableHaskellDepends = [
+             array base binary bytestring containers directory filepath
+             haskell-src-exts mtl parsec protocol-buffers
+             protocol-buffers-descriptor utf8-string
+           ];
+           executableToolDepends = [ alex ];
+           homepage = "https://github.com/k-bx/protocol-buffers";
+           description = "Parse Google Protocol Buffer specifications";
+           license = stdenv.lib.licenses.bsd3;
+           jailbreak = true;
+         }) { haskell-src-exts=self.haskell-src-exts_1_17_1; };
+         
+      "haskell-src-exts_1_17_1" = self.callPackage
+        ({ mkDerivation, array, base, containers, cpphs, directory
+         , filepath, ghc-prim, happy, mtl, pretty, pretty-show, smallcheck
+         , tasty, tasty-golden, tasty-smallcheck
+         }:
+         mkDerivation {
+           pname = "haskell-src-exts";
+           version = "1.17.1";
+
+           libraryHaskellDepends = [ array base cpphs ghc-prim pretty ];
+           libraryToolDepends = [ happy ];
+           testHaskellDepends = [
+             base containers directory filepath mtl pretty-show smallcheck tasty
+             tasty-golden tasty-smallcheck
+           ];
+           doCheck = false;
+           homepage = "https://github.com/haskell-suite/haskell-src-exts";
+           description = "Manipulating Haskell source: abstract syntax, lexer, parser, and pretty-printer";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
+
 
     }
