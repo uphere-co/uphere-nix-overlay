@@ -393,5 +393,46 @@ in self: super: {
            license = stdenv.lib.licenses.bsd3;
          }) {};
 
+      "blaze-markup" = self.callPackage
+        ({ mkDerivation, base, blaze-builder, bytestring, containers, HUnit
+         , QuickCheck, test-framework, test-framework-hunit
+         , test-framework-quickcheck2, text
+         }:
+         mkDerivation {
+           pname = "blaze-markup";
+           version = "0.7.1.1";
+           sha256 = "00s3qlkbq9gxgy6l5skbhnl5h81mjgzqcrw3yn3wqnyd9scab3b3";
+           libraryHaskellDepends = [ base blaze-builder bytestring text ];
+           testHaskellDepends = [
+             base blaze-builder bytestring containers HUnit QuickCheck
+             test-framework test-framework-hunit test-framework-quickcheck2 text
+           ];
+           homepage = "http://jaspervdj.be/blaze";
+           description = "A blazingly fast markup combinator library for Haskell";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
+
+
+      "blaze-html" = self.callPackage
+        ({ mkDerivation, base, blaze-builder, blaze-markup, bytestring
+         , containers, HUnit, QuickCheck, test-framework
+         , test-framework-hunit, test-framework-quickcheck2, text
+         }:
+         mkDerivation {
+           pname = "blaze-html";
+           version = "0.8.1.3";
+           sha256 = "0dyn6cj5av4apmc3wav6asfap53gxy4hzdb7rph83yakscbyf5lc";
+           libraryHaskellDepends = [
+             base blaze-builder blaze-markup bytestring text
+           ];
+           testHaskellDepends = [
+             base blaze-builder blaze-markup bytestring containers HUnit
+             QuickCheck test-framework test-framework-hunit
+             test-framework-quickcheck2 text
+           ];
+           homepage = "http://jaspervdj.be/blaze";
+           description = "A blazingly fast HTML combinator library for Haskell";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
 
     }
