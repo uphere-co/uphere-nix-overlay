@@ -26,6 +26,14 @@ let
 
 in self: super: {
       "distributed-process-lifted" = pkgs.haskell.lib.dontCheck super.distributed-process-lifted;
+      "distributed-process" = pkgs.haskell.lib.overrideCabal super.distributed-process (drv: {
+        version = "0.6.6";
+        sha256 = "1l5png3jwsqa5m63szz4x669nz6qmjiwhhh26z9wql7amdfpg0g8";
+      });
+      "syb" = pkgs.haskell.lib.overrideCabal super.syb (drv: {
+        version = "0.6";
+        sha256 = "1p3cnqjm13677r4a966zffzhi9b3a321aln8zs8ckqj0d9z1z3d3";
+      });
 
       "lbfgs" = self.callPackage
         ({ mkDerivation, array, base, stdenv, vector }:
@@ -60,9 +68,9 @@ in self: super: {
 
       llvm-general-pure =
         let p1 = haskell.lib.overrideCabal super.llvm-general-pure (drv: {
-                   src = "${llvmGeneralSrc}/llvm-general-pure"; 
+                   src = "${llvmGeneralSrc}/llvm-general-pure";
                  });
-        in haskell.lib.addBuildDepend p1 self.transformers-compat; 
+        in haskell.lib.addBuildDepend p1 self.transformers-compat;
 
       llvm-general = haskell.lib.overrideCabal super.llvm-general (drv: {
         src = "${llvmGeneralSrc}/llvm-general";
@@ -73,15 +81,14 @@ in self: super: {
         ({ mkDerivation, base, bindings-DSL, bytestring, hdf5, libffi
          , monad-peel, primitive, stdenv, transformers, vector
          }:
-	 mkDerivation {
+     mkDerivation {
            pname = "bindings-hdf5";
            version = "1.8.12";
-	   #src = /home/wavewave/repo/srcc/bindings-hdf5;
            src = fetchgit {
              url = "git://github.com/wavewave/bindings-hdf5.git";
              rev = "881048b816789a89b6215ee566496425d37a739d";
              sha256 = "09y7hk91854k6iz3l9n4kwsvi3q8phl7ydnwkdhz8fl96xb79235";
-	   };
+       };
            libraryHaskellDepends = [
              base bindings-DSL bytestring libffi monad-peel primitive
              transformers vector
@@ -91,7 +98,7 @@ in self: super: {
            description = "Bindings to HDF5";
            license = stdenv.lib.licenses.publicDomain;
          }) { hdf5 = pkgs.hdf5; };
-	 
+
       "hdf5" = self.callPackage
         ({ mkDerivation, base, bindings-hdf5, bytestring, stdenv, tagged
          , vector
@@ -103,7 +110,7 @@ in self: super: {
              url = "git://github.com/wavewave/hs-hdf5.git";
              rev = "196e0d714a34e97358be9a907af0b93b4c7922e3";
              sha256 = "1gwrcdza3qsw3hq8jsvp7bgxr8fzkg0jjb15pmhnrn28jkhlhx03";
-	   };
+       };
            libraryHaskellDepends = [
              base bindings-hdf5 bytestring tagged vector
            ];
@@ -114,28 +121,28 @@ in self: super: {
       "network-transport-uphere" = self.callPackage
         ({ mkDerivation, base, binary, bytestring, containers, data-accessor, distributed-process
          , network, network-simple, network-transport, network-transport-tests, stm, either
-	 , stdenv
-	 }:
-	 mkDerivation {
-	   pname = "network-transport-uphere";
-	   version = "0.0";
-	   src = fetchgit {
+     , stdenv
+     }:
+     mkDerivation {
+       pname = "network-transport-uphere";
+       version = "0.0";
+       src = fetchgit {
              url = "git://github.com/uphere-co/network-transport-uphere.git";
              rev = "5f53fb37799ca00de2e575a6ba68781759c58eb4";
              sha256 = "1vgrp6x5480p9vgk1ci7qydv76r76742inm5mzvqgxsvnyv5hj77";
-	   };
-	   libraryHaskellDepends = [
-	     base bytestring containers data-accessor network network-transport
-	   ];
-	   executableHaskellDepends = [
-	     base binary distributed-process network-simple network-transport either stm
-	   ];
-	   homepage = "http://haskell-distributed.github.com";
-	   description = "UpHere specific network transport";
-	   license = stdenv.lib.licenses.bsd3;
-	   doCheck = false;
-	 }) {};
-	 
+       };
+       libraryHaskellDepends = [
+         base bytestring containers data-accessor network network-transport
+       ];
+       executableHaskellDepends = [
+         base binary distributed-process network-simple network-transport either stm
+       ];
+       homepage = "http://haskell-distributed.github.com";
+       description = "UpHere specific network transport";
+       license = stdenv.lib.licenses.bsd3;
+       doCheck = false;
+     }) {};
+
       "fficxx-runtime" = self.callPackage (import (fficxxSrc + "/fficxx-runtime")) {};
       "fficxx" = self.callPackage (import (fficxxSrc + "/fficxx")) {};
 
@@ -159,7 +166,7 @@ in self: super: {
             description = "product-profunctors";
             license = stdenv.lib.licenses.bsd3;
           }) {};
-          
+
       "opaleye_0_5_0_0" = self.callPackage
          ({ mkDerivation, aeson, attoparsec, base, base16-bytestring
           , bytestring, case-insensitive, containers, contravariant, multiset
@@ -250,7 +257,7 @@ in self: super: {
              base bytestring distributed-closure jni singletons text vector
            ];
            testHaskellDepends = [ base bytestring hspec text ];
-           buildDepends = [ jdk ];           
+           buildDepends = [ jdk ];
            #doCheck = false;
            homepage = "http://github.com/tweag/inline-java/tree/master/jvm#readme";
            description = "Call JVM methods from Haskell";
@@ -271,7 +278,7 @@ in self: super: {
              singletons thread-local-storage
            ];
            setupHaskellDepends = [ cpphs ];
-           configureFlags = ["--extra-lib-dirs=${jdk.jre}/lib/openjdk/jre/lib/amd64/server"]; 
+           configureFlags = ["--extra-lib-dirs=${jdk.jre}/lib/openjdk/jre/lib/amd64/server"];
            librarySystemDepends = [ jdk ];
            homepage = "https://github.com/tweag/inline-java/tree/master/jni#readme";
            description = "Complete JNI raw bindings";
@@ -297,7 +304,7 @@ in self: super: {
              rev = "375552fb4c7100309e1f5b14c40f80a9d8e77121";
              sha256 = "1gqa0r5v06dg84sb8rwf7ml2bl7la76clgr1x9iwf1smxgzr5na0";
            };
-           
+
            libraryHaskellDepends = [
              base binary bindings-svm bytestring containers deepseq directory
              monad-par mwc-random vector
@@ -324,7 +331,7 @@ in self: super: {
            description = "Parse Google Protocol Buffer specifications";
            license = stdenv.lib.licenses.bsd3;
          }) {};
-         
+
       "protocol-buffers-descriptor" = self.callPackage
         ({ mkDerivation, base, bytestring, containers, protocol-buffers
          , stdenv
@@ -332,7 +339,7 @@ in self: super: {
          mkDerivation {
            pname = "protocol-buffers-descriptor";
            version = "2.4.3";
-           src = "${protocol-buffers-src}/descriptor";           
+           src = "${protocol-buffers-src}/descriptor";
            libraryHaskellDepends = [
              base bytestring containers protocol-buffers
            ];
@@ -371,7 +378,7 @@ in self: super: {
            license = stdenv.lib.licenses.bsd3;
            jailbreak = true;
          }) { haskell-src-exts=self.haskell-src-exts_1_17_1; };
-         
+
       "haskell-src-exts_1_17_1" = self.callPackage
         ({ mkDerivation, array, base, containers, cpphs, directory
          , filepath, ghc-prim, happy, mtl, pretty, pretty-show, smallcheck
