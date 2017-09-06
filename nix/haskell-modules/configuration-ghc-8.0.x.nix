@@ -30,10 +30,23 @@ in self: super: {
         version = "0.6.6";
         sha256 = "1l5png3jwsqa5m63szz4x669nz6qmjiwhhh26z9wql7amdfpg0g8";
       });
+
+      "distributed-process-simplelocalnet" = pkgs.haskell.lib.overrideCabal super.distributed-process-simplelocalnet (drv: {
+        version = "0.2.3.3";
+        sha256 = "7b98498f2d6ce185ae0a855ff35e97a9ad1bd1ec7872b2d75aa0bb1f1fb24316";
+        revision = "1";
+        editedCabalFile = "4ccf03a12611141e322511b6370e2f757e215f17e68fc3f68485ec5b48fa8f70";
+      });
+      
       "syb" = pkgs.haskell.lib.overrideCabal super.syb (drv: {
         version = "0.6";
         sha256 = "1p3cnqjm13677r4a966zffzhi9b3a321aln8zs8ckqj0d9z1z3d3";
       });
+
+      "network-multicast" = pkgs.haskell.lib.overrideCabal super.network-multicast (drv: {
+         version = "0.2.0";
+         sha256 = "0f3b50abc3a401c20cc6a0ec51a49d2a48e5b467d9fbd63b7cf803165fe975f2";
+       });
 
       "lbfgs" = self.callPackage
         ({ mkDerivation, array, base, stdenv, vector }:
