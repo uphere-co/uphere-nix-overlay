@@ -2,8 +2,10 @@
 
 let ukbsrc = fetchgit {
       url = "https://github.com/uphere-co/ukb.git";
-      rev = "28b0657fc17b84d83a8eaca0e6e9eb030df110c9";
-      sha256 = "03kdppvm01w8yfjrgzw3v6y4q5bkdpnihbn5vhl1cpkzai1cxjks";
+      rev = "356f24b1155f97b37748911a421827fe38fefe1c";
+             # "28b0657fc17b84d83a8eaca0e6e9eb030df110c9"
+      sha256 = "10lh3xv9ck98vac6ba6251xsf4ny9v6lic17rgwmw4qqwzcc1b7h";
+             # "03kdppvm01w8yfjrgzw3v6y4q5bkdpnihbn5vhl1cpkzai1cxjks"
     };
     
     lkbsrc = fetchurl {
