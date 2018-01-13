@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, haskellLib }:
 
 with pkgs;
 
@@ -25,25 +25,25 @@ let
     };
 
 in self: super: {
-      "distributed-process-lifted" = pkgs.haskell.lib.dontCheck super.distributed-process-lifted;
-      "distributed-process" = pkgs.haskell.lib.overrideCabal super.distributed-process (drv: {
+      "distributed-process-lifted" = haskellLib.dontCheck super.distributed-process-lifted;
+      "distributed-process" = haskellLib.overrideCabal super.distributed-process (drv: {
         version = "0.6.6";
         sha256 = "1l5png3jwsqa5m63szz4x669nz6qmjiwhhh26z9wql7amdfpg0g8";
       });
 
-      "distributed-process-simplelocalnet" = pkgs.haskell.lib.overrideCabal super.distributed-process-simplelocalnet (drv: {
+      "distributed-process-simplelocalnet" = haskellLib.overrideCabal super.distributed-process-simplelocalnet (drv: {
         version = "0.2.3.3";
         sha256 = "7b98498f2d6ce185ae0a855ff35e97a9ad1bd1ec7872b2d75aa0bb1f1fb24316";
         revision = "1";
         editedCabalFile = "4ccf03a12611141e322511b6370e2f757e215f17e68fc3f68485ec5b48fa8f70";
       });
       
-      "syb" = pkgs.haskell.lib.overrideCabal super.syb (drv: {
+      "syb" = haskellLib.overrideCabal super.syb (drv: {
         version = "0.6";
         sha256 = "1p3cnqjm13677r4a966zffzhi9b3a321aln8zs8ckqj0d9z1z3d3";
       });
 
-      "network-multicast" = pkgs.haskell.lib.overrideCabal super.network-multicast (drv: {
+      "network-multicast" = haskellLib.overrideCabal super.network-multicast (drv: {
          version = "0.2.0";
          sha256 = "0f3b50abc3a401c20cc6a0ec51a49d2a48e5b467d9fbd63b7cf803165fe975f2";
        });
@@ -80,12 +80,12 @@ in self: super: {
          }) { inherit (pkgs) liblapack;};
 
       llvm-general-pure =
-        let p1 = haskell.lib.overrideCabal super.llvm-general-pure (drv: {
+        let p1 = haskellLib.overrideCabal super.llvm-general-pure (drv: {
                    src = "${llvmGeneralSrc}/llvm-general-pure";
                  });
-        in haskell.lib.addBuildDepend p1 self.transformers-compat;
+        in haskellLib.addBuildDepend p1 self.transformers-compat;
 
-      llvm-general = haskell.lib.overrideCabal super.llvm-general (drv: {
+      llvm-general = haskellLib.overrideCabal super.llvm-general (drv: {
         src = "${llvmGeneralSrc}/llvm-general";
         libraryToolDepends = [ llvm_38 ];
       });
@@ -299,7 +299,7 @@ in self: super: {
            hydraPlatforms = stdenv.lib.platforms.none;
          }) {jdk = pkgs.jdk;};
 
-      "bindings-svm" = pkgs.haskell.lib.overrideCabal super.bindings-svm (drv: {
+      "bindings-svm" = haskellLib.overrideCabal super.bindings-svm (drv: {
         patches = [./bindings-svm-openmp.patch];
         librarySystemDepends = [ pkgs.libsvm ];
       });

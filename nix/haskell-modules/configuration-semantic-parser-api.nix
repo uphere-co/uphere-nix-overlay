@@ -23,18 +23,18 @@
 , corenlp
 , corenlp_models
 #
-, boost
 , fetchgit
 , fetchurl
 , haskellPackages
 , stdenv
 , jdk
 , fasttext
+, haskellLib
 }:
 
 let
 
-  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.0.x.nix") { inherit pkgs; };
+  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.0.x.nix") { inherit pkgs haskellLib; };
   haskellPackages1 = haskellPackages.override { overrides = hsconfig1; };
   fastTextNix = import (semantic-role-labeler + "/fasttext/default.nix") {
     inherit stdenv;
@@ -63,9 +63,9 @@ let
     "VerbNet"               = self.callPackage (import VerbNet) {};
     "wiki-ner"              = self.callPackage (import wiki-ner) {};
   };
-  ukb = import <uphere-nix-overlay/nix/cpp-modules/ukb.nix> { inherit stdenv fetchgit fetchurl boost; };
+  ukb = import <uphere-nix-overlay/nix/cpp-modules/ukb.nix> { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
 
-  hsconfig3 = import <HUKB/HUKB-driver/config.nix> { inherit uphere-nix-overlay ukb; };
+  hsconfig3 = import <HUKB/HUKB-driver/config.nix> { inherit uphere-nix-overlay ukb haskellLib; };
   hsconfig4 =
     self: super: {
       "HUKB-driver" = self.callPackage (import <HUKB/HUKB-driver>) {};
