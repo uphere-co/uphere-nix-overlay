@@ -8,21 +8,31 @@ let
       rev = "dc8bd3a2ee8ecc53f5dbd8462db78a03345f2cfe";
       sha256 = "04c8qhbp7b7lcs1cq1i4v94bwplvznq9nv4qsyky68ww33686sl1";
     };
+
     llvmGeneralSrc = fetchgit {
       url = "git://github.com/wavewave/llvm-general.git";
       rev = "646bfa6168430b56035f9858c9676ac22fba4976";
       sha256 = "1g97vi8jmp7n783s0kbk5vhrh4kjqf619nhw3qxjjlpz08vhjr9m";
     };
+
     fficxxSrc = fetchgit {
       url = "git://github.com/wavewave/fficxx.git";
       rev = "eeb2d236dda5ae422ce80d4b6bcd851fd9e70499";
       sha256 = "0d0wckmy5vs3vq6gh1sawxzmq169nz9kpg4wq5ap9fz5k18h54wm";
     };
+
     protocol-buffers-src = fetchgit {
       url = "git://github.com/k-bx/protocol-buffers.git";
       rev = "52a4a0644c313627a3091cfa3afe6552bb3c7e74";
       sha256 = "1i97gs2kdifxjfq2a47fq88qjps66i2cnvimjfxsfgq1713ily2f";
     };
+
+    beam-src = fetchgit {
+      url = "git://github.com/tathougies/beam.git";
+      rev = "40928fb837cc875d0d8cd21db59cada532f4d767";
+      sha256 = "1g012wpvds2y0i7l5wafxraxr0zfjpqsir2xjhsmncdcdpbs2h0d";
+    };
+
 
 in self: super: {
       "distributed-process-lifted" = haskellLib.dontCheck super.distributed-process-lifted;
@@ -37,7 +47,7 @@ in self: super: {
         revision = "1";
         editedCabalFile = "4ccf03a12611141e322511b6370e2f757e215f17e68fc3f68485ec5b48fa8f70";
       });
-      
+
       "syb" = haskellLib.overrideCabal super.syb (drv: {
         version = "0.6";
         sha256 = "1p3cnqjm13677r4a966zffzhi9b3a321aln8zs8ckqj0d9z1z3d3";
@@ -454,5 +464,68 @@ in self: super: {
            description = "A blazingly fast HTML combinator library for Haskell";
            license = stdenv.lib.licenses.bsd3;
          }) {};
+
+      "beam-core" = self.callPackage
+        ({ mkDerivation, aeson, base, bytestring, containers, dlist, free
+         , ghc-prim, hashable, microlens, mtl, network-uri, stdenv, tasty
+         , tasty-hunit, text, time, vector-sized
+         }:
+         mkDerivation {
+           pname = "beam-core";
+           version = "0.6.0.0";
+           src = "${beam-src}/beam-core";
+           libraryHaskellDepends = [
+             aeson base bytestring containers dlist free ghc-prim hashable
+             microlens mtl network-uri text time vector-sized
+           ];
+           testHaskellDepends = [
+             base bytestring tasty tasty-hunit text time
+           ];
+           homepage = "http://travis.athougies.net/projects/beam.html";
+           description = "Type-safe, feature-complete SQL query and manipulation interface for Haskell";
+           license = stdenv.lib.licenses.mit;
+         }) {};
+
+      "beam-migrate" = self.callPackage
+        ({ mkDerivation, aeson, base, beam-core, bytestring, containers
+         , deepseq, dependent-map, dependent-sum, free, ghc-prim, hashable
+         , haskell-src-exts, mtl, parallel, pqueue, pretty, scientific
+         , stdenv, text, time, unordered-containers, vector
+         }:
+         mkDerivation {
+           pname = "beam-migrate";
+           version = "0.2.0.0";
+           src = "${beam-src}/beam-migrate";
+           libraryHaskellDepends = [
+             aeson base beam-core bytestring containers deepseq dependent-map
+             dependent-sum free ghc-prim hashable haskell-src-exts mtl parallel
+             pqueue pretty scientific text time unordered-containers vector
+           ];
+           homepage = "https://travis.athougies.net/projects/beam.html";
+           description = "Database migrations library for Beam";
+           license = stdenv.lib.licenses.mit;
+         }) {};
+
+      "beam-postgres" = self.callPackage
+        ({ mkDerivation, aeson, base, beam-core, beam-migrate, bytestring
+         , case-insensitive, conduit, free, hashable, haskell-src-exts, mtl
+         , network-uri, postgresql-libpq, postgresql-simple, scientific
+         , stdenv, text, time, unordered-containers, uuid, vector
+         }:
+         mkDerivation {
+           pname = "beam-postgres";
+           version = "0.2.0.0";
+           src = "${beam-src}/beam-postgres";
+           libraryHaskellDepends = [
+             aeson base beam-core beam-migrate bytestring case-insensitive
+             conduit free hashable haskell-src-exts mtl network-uri
+             postgresql-libpq postgresql-simple scientific text time
+             unordered-containers uuid vector
+           ];
+           homepage = "http://travis.athougies.net/projects/beam.html";
+           description = "Connection layer between beam and postgres";
+           license = stdenv.lib.licenses.mit;
+         }) {};
+
 
     }
