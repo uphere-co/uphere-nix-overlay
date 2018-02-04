@@ -10,6 +10,7 @@
         "shadycss": "1.0.6",
         "webcomponentsjs": "1.0.14",
         "iron-component-page": "2.0.0",
+        "iron-form": "2.1.3",
         "iron-label": "2.0.0",
         "iron-pages": "2.0.0",
         "app-layout": "2.0.4",

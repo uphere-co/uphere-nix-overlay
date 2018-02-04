@@ -527,5 +527,6 @@ in self: super: {
            license = stdenv.lib.licenses.mit;
          }) {};
 
+      "thrift" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.thrift);
 
     }
