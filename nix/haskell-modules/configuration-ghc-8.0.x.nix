@@ -1,13 +1,14 @@
-{ pkgs, haskellLib }:
+{ pkgs
+, haskellLib }:
 
 with pkgs;
 
 let
     inline-java-src = fetchgit {
-      url = "git://github.com/wavewave/inline-java.git";
-      rev = "dc8bd3a2ee8ecc53f5dbd8462db78a03345f2cfe";
-      sha256 = "04c8qhbp7b7lcs1cq1i4v94bwplvznq9nv4qsyky68ww33686sl1";
-    };
+                        url = "git://github.com/wavewave/inline-java.git";
+                        rev = "dc8bd3a2ee8ecc53f5dbd8462db78a03345f2cfe";
+                        sha256 = "04c8qhbp7b7lcs1cq1i4v94bwplvznq9nv4qsyky68ww33686sl1";
+                      };
 
     llvmGeneralSrc = fetchgit {
       url = "git://github.com/wavewave/llvm-general.git";
@@ -16,10 +17,10 @@ let
     };
 
     fficxxSrc = fetchgit {
-      url = "git://github.com/wavewave/fficxx.git";
-      rev = "eeb2d236dda5ae422ce80d4b6bcd851fd9e70499";
-      sha256 = "0d0wckmy5vs3vq6gh1sawxzmq169nz9kpg4wq5ap9fz5k18h54wm";
-    };
+                  url = "git://github.com/wavewave/fficxx.git";
+                  rev = "eeb2d236dda5ae422ce80d4b6bcd851fd9e70499";
+                  sha256 = "0d0wckmy5vs3vq6gh1sawxzmq169nz9kpg4wq5ap9fz5k18h54wm";
+                };
 
     protocol-buffers-src = fetchgit {
       url = "git://github.com/k-bx/protocol-buffers.git";
@@ -166,8 +167,8 @@ in self: super: {
        doCheck = false;
      }) {};
 
-      "fficxx-runtime" = self.callPackage (import (fficxxSrc + "/fficxx-runtime")) {};
-      "fficxx" = self.callPackage (import (fficxxSrc + "/fficxx")) {};
+      "fficxx-runtime" = self.callPackage "${fficxxSrc}/fficxx-runtime" {};
+      "fficxx" = self.callPackage "${fficxxSrc}/fficxx" {};
 
       "product-profunctors" = self.callPackage
          ({ mkDerivation, base, contravariant, profunctors, stdenv, tagged
