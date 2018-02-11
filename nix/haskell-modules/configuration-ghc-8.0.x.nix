@@ -176,8 +176,7 @@ in self: super: {
         mkDerivation {
           pname = "fficxx";
           version = "0.3.999";
-          src = fficxxSrc; # "${fficxxSrc}/fficxx";
-          #sourceRoot = "fficxx";
+          src = fficxxSrc + "/fficxx"; # "${fficxxSrc}/fficxx";
           libraryHaskellDepends = [
             base bytestring Cabal containers data-default directory either
             errors filepath hashable haskell-src-exts lens mtl process pureMD5
