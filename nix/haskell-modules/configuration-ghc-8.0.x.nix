@@ -169,30 +169,31 @@ in self: super: {
 
       "fficxx" = self.callPackage
         ({ mkDerivation, base, bytestring, Cabal, containers, data-default
-         , directory, either, errors, filepath, hashable, haskell-src-exts
-         , lens, mtl, process, pureMD5, split, stdenv, template
-         , template-haskell, text, transformers, unordered-containers
-         }:
-         mkDerivation {
-           pname = "fficxx";
-           version = "0.3.999";
-           src = "${fficxxSrc}/fficxx";
-           libraryHaskellDepends = [
-             base bytestring Cabal containers data-default directory either
-             errors filepath hashable haskell-src-exts lens mtl process pureMD5
-             split template template-haskell text transformers
-             unordered-containers
-           ];
-           description = "automatic C++ binding generation";
-           license = stdenv.lib.licenses.bsd3;
-         }) {};
+        , directory, either, errors, filepath, hashable, haskell-src-exts
+        , lens, mtl, process, pureMD5, split, stdenv, template
+        , template-haskell, text, transformers, unordered-containers
+        }:
+        mkDerivation {
+          pname = "fficxx";
+          version = "0.3.999";
+          src = fficxxSrc; # "${fficxxSrc}/fficxx";
+          #sourceRoot = "fficxx";
+          libraryHaskellDepends = [
+            base bytestring Cabal containers data-default directory either
+            errors filepath hashable haskell-src-exts lens mtl process pureMD5
+            split template template-haskell text transformers
+            unordered-containers
+          ];
+          description = "automatic C++ binding generation";
+          license = stdenv.lib.licenses.bsd3;
+        }) {}; 
 
       "fficxx-runtime" = self.callPackage
         ({ mkDerivation, base, bytestring, stdenv, template-haskell }:
          mkDerivation {
            pname = "fficxx-runtime";
            version = "0.3";
-           src = ./.;
+           src = "${fficxxSrc}/fficxx-runtime";
            libraryHaskellDepends = [ base bytestring template-haskell ];
            description = "Runtime for fficxx-generated library";
            license = stdenv.lib.licenses.bsd3;
