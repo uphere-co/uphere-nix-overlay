@@ -167,25 +167,25 @@ in self: super: {
            doCheck = false;
          }) {};
 
-      "fficxx" = self.callPackage (fficxxSrc + "/fficxx") {};
-      #  ({ mkDerivation, base, bytestring, Cabal, containers, data-default
-      #  , directory, either, errors, filepath, hashable, haskell-src-exts
-      #  , lens, mtl, process, pureMD5, split, stdenv, template
-      #  , template-haskell, text, transformers, unordered-containers
-      #  }:
-      #  mkDerivation {
-      #    pname = "fficxx";
-      #    version = "0.3.999";
-      #    src = fficxxSrc + "/fficxx"; # "${fficxxSrc}/fficxx";
-      #    libraryHaskellDepends = [
-      #      base bytestring Cabal containers data-default directory either
-      #      errors filepath hashable haskell-src-exts lens mtl process pureMD5
-      #      split template template-haskell text transformers
-      #      unordered-containers
-      #    ];
-      #    description = "automatic C++ binding generation";
-      #    license = stdenv.lib.licenses.bsd3;
-      #  }) {}; 
+      "fficxx" = self.callPackage 
+        ({ mkDerivation, base, bytestring, Cabal, containers, data-default
+        , directory, either, errors, filepath, hashable, haskell-src-exts
+        , lens, mtl, process, pureMD5, split, stdenv, template
+        , template-haskell, text, transformers, unordered-containers
+        }:
+        mkDerivation {
+          pname = "fficxx";
+          version = "0.3.999";
+          src = fficxxSrc + "/fficxx";
+          libraryHaskellDepends = [
+            base bytestring Cabal containers data-default directory either
+            errors filepath hashable haskell-src-exts lens mtl process pureMD5
+            split template template-haskell text transformers
+            unordered-containers
+          ];
+          description = "automatic C++ binding generation";
+          license = stdenv.lib.licenses.bsd3;
+        }) {}; 
 
       "fficxx-runtime" = self.callPackage
         ({ mkDerivation, base, bytestring, stdenv, template-haskell }:
@@ -280,7 +280,7 @@ in self: super: {
          mkDerivation {
            pname = "inline-java";
            version = "0.6.2";
-           src = "${inline-java-src}";
+           src = inline-java-src;
            libraryHaskellDepends = [
              base binary bytestring Cabal containers directory
              distributed-closure filepath ghc-heap-view inline-c jni jvm
@@ -304,7 +304,7 @@ in self: super: {
          mkDerivation {
            pname = "jvm";
            version = "0.2.2";
-           src = "${inline-java-src}/jvm";
+           src = inline-java-src + "/jvm";
            libraryHaskellDepends = [
              base bytestring distributed-closure jni singletons text vector
            ];
@@ -323,7 +323,7 @@ in self: super: {
          }:
          mkDerivation {
            pname = "jni";
-           src = "${inline-java-src}/jni";
+           src = inline-java-src + "/jni";
            version = "0.3.1";
            libraryHaskellDepends = [
              base bytestring choice constraints containers inline-c
