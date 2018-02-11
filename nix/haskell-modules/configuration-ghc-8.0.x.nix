@@ -145,30 +145,58 @@ in self: super: {
       "network-transport-uphere" = self.callPackage
         ({ mkDerivation, base, binary, bytestring, containers, data-accessor, distributed-process
          , network, network-simple, network-transport, network-transport-tests, stm, either
-     , stdenv
-     }:
-     mkDerivation {
-       pname = "network-transport-uphere";
-       version = "0.0";
-       src = fetchgit {
-             url = "git://github.com/uphere-co/network-transport-uphere.git";
-             rev = "5f53fb37799ca00de2e575a6ba68781759c58eb4";
-             sha256 = "1vgrp6x5480p9vgk1ci7qydv76r76742inm5mzvqgxsvnyv5hj77";
-       };
-       libraryHaskellDepends = [
-         base bytestring containers data-accessor network network-transport
-       ];
-       executableHaskellDepends = [
-         base binary distributed-process network-simple network-transport either stm
-       ];
-       homepage = "http://haskell-distributed.github.com";
-       description = "UpHere specific network transport";
-       license = stdenv.lib.licenses.bsd3;
-       doCheck = false;
-     }) {};
+         , stdenv
+         }:
+         mkDerivation {
+           pname = "network-transport-uphere";
+           version = "0.0";
+           src = fetchgit {
+                 url = "git://github.com/uphere-co/network-transport-uphere.git";
+                 rev = "5f53fb37799ca00de2e575a6ba68781759c58eb4";
+                 sha256 = "1vgrp6x5480p9vgk1ci7qydv76r76742inm5mzvqgxsvnyv5hj77";
+           };
+           libraryHaskellDepends = [
+             base bytestring containers data-accessor network network-transport
+           ];
+           executableHaskellDepends = [
+             base binary distributed-process network-simple network-transport either stm
+           ];
+           homepage = "http://haskell-distributed.github.com";
+           description = "UpHere specific network transport";
+           license = stdenv.lib.licenses.bsd3;
+           doCheck = false;
+         }) {};
 
-      "fficxx-runtime" = self.callPackage "${fficxxSrc}/fficxx-runtime" {};
-      "fficxx" = self.callPackage "${fficxxSrc}/fficxx" {};
+      "fficxx" = self.callPackage
+        ({ mkDerivation, base, bytestring, Cabal, containers, data-default
+         , directory, either, errors, filepath, hashable, haskell-src-exts
+         , lens, mtl, process, pureMD5, split, stdenv, template
+         , template-haskell, text, transformers, unordered-containers
+         }:
+         mkDerivation {
+           pname = "fficxx";
+           version = "0.3.999";
+           src = "${fficxxSrc}/fficxx";
+           libraryHaskellDepends = [
+             base bytestring Cabal containers data-default directory either
+             errors filepath hashable haskell-src-exts lens mtl process pureMD5
+             split template template-haskell text transformers
+             unordered-containers
+           ];
+           description = "automatic C++ binding generation";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
+
+      "fficxx-runtime" = self.callPackage
+        ({ mkDerivation, base, bytestring, stdenv, template-haskell }:
+         mkDerivation {
+           pname = "fficxx-runtime";
+           version = "0.3";
+           src = ./.;
+           libraryHaskellDepends = [ base bytestring template-haskell ];
+           description = "Runtime for fficxx-generated library";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
 
       "product-profunctors" = self.callPackage
          ({ mkDerivation, base, contravariant, profunctors, stdenv, tagged
