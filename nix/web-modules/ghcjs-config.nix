@@ -25,27 +25,28 @@ in
   #inherit (ghcjsDom) ghcjs-dom-jsffi;
 
   #ghcjs-dom = doJailbreak super.ghcjs-dom;
-  "jsaddle" = self.callPackage
-    ({ mkDerivation, aeson, attoparsec, base, base64-bytestring
-     , bytestring, containers, deepseq, filepath, ghc-prim, http-types
-     , lens, primitive, process, random, ref-tf, scientific, stm, text
-     , time, transformers, unordered-containers, vector, stdenv, ghcjs-base
-     }:
-     mkDerivation {
-       pname = "jsaddle";
-       version = "0.9.4.0";
-       sha256 = "0lk4cbvl2n3zcc709hjcnxw3wm1vd49dqlm12cwy9im4aif1zbq1";
-       libraryHaskellDepends = [
-         aeson attoparsec base base64-bytestring bytestring containers
-         deepseq filepath ghc-prim http-types lens primitive process random
-         ref-tf scientific stm text time transformers unordered-containers
-         vector ghcjs-base
-       ];
-       description = "Interface for JavaScript that works with GHCJS and GHC";
-       license = stdenv.lib.licenses.mit;
-     }) {};
+  # "jsaddle" = self.callPackage
+  #   ({ mkDerivation, aeson, attoparsec, base, base64-bytestring
+  #    , bytestring, containers, deepseq, filepath, ghc-prim, http-types
+  #    , lens, primitive, process, random, ref-tf, scientific, stm, text
+  #    , time, transformers, unordered-containers, vector, stdenv, ghcjs-base
+  #    }:
+  #    mkDerivation {
+  #      pname = "jsaddle";
+  #      version = "0.6.0.1";  # 0.9.4.0
+  #      sha256 = "1qapqpdkqj73qf4x282a44f4yl31vsarf6wn8bmwlbln5kmakg0n"; #0lk4cbvl2n3zcc709hjcnxw3wm1vd49dqlm12cwy9im4aif1zbq1
+  #      libraryHaskellDepends = [
+  #        aeson attoparsec base base64-bytestring bytestring containers
+  #        deepseq filepath ghc-prim http-types lens primitive process random
+  #        ref-tf scientific stm text time transformers unordered-containers
+  #        vector ghcjs-base
+  #      ];
+  #      description = "Interface for JavaScript that works with GHCJS and GHC";
+  #      license = stdenv.lib.licenses.mit;
+  #      jailbreak = true; # due to text
+  #    }) {};
 
 
-  #doJailbreak (addBuildDepend jsaddlePkgs.jsaddle self.ghcjs-base);
+  "jsaddle" = doJailbreak (addBuildDepend (import jsaddlePkgs self).jsaddle self.ghcjs-base);
 }
 
