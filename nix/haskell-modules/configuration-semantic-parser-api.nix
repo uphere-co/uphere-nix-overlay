@@ -78,7 +78,7 @@ let
     "VerbNet"               = self.callPackage (import VerbNet) {};
     "wiki-ner"              = self.callPackage (import wiki-ner) {};
   };
-  ukb = import <uphere-nix-overlay/nix/cpp-modules/ukb.nix> { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
+  ukb = import (uphere-nix-overlay + "/nix/cpp-modules/ukb.nix") { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
 
   hsconfig3 = import (HUKB+ "/HUKB-driver/config.nix") { inherit uphere-nix-overlay ukb haskellLib; };
   hsconfig4 =
