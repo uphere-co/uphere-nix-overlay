@@ -19,7 +19,7 @@
 , semantic-parser-api-ghcjs
 , semantic-role-labeler
 , semantic-types
-, syntactic-analysis
+#, syntactic-analysis
 , textview
 , time-tagger
 , uphere-db
@@ -67,9 +67,9 @@ let
     "rss-scraper"           = self.callPackage (import (fetchfin + "/rss-scraper")) {};
     "semantic-parser-api-common" = self.callPackage (import (semantic-parser-api-ghcjs + "/semantic-parser-api-common")) {};
     "semantic-parser-api-compute" = self.callPackage (import semantic-parser-api-compute) {};
-    "semantic-role-labeler" = self.callPackage (import semantic-role-labeler) {};
+    "semantic-role-labeler" = self.callPackage (import (semantic-role-labeler + "/semantic-role-labeler")) {};
     "semantic-types"        = self.callPackage (import semantic-types) {};
-    "syntactic-analysis"    = self.callPackage (import syntactic-analysis) {};
+    "syntactic-analysis"    = self.callPackage (import (semantic-role-labeler + "/syntactic-analysis")) {};
     "textview"              = self.callPackage (import textview) {};
     "time-tagger"              = self.callPackage (import time-tagger) {};
     "uphere-db"             = self.callPackage (import uphere-db) {};
@@ -86,4 +86,7 @@ let
       "HUKB-driver" = self.callPackage (import (HUKB + "/HUKB-driver")) {};
     };
 in
-  self: super: (hsconfig1 self super // hsconfig2 self super // hsconfig3 self super // hsconfig4 self super)
+  self: super: (hsconfig1 self super //
+                hsconfig2 self super //
+                hsconfig3 self super //
+                hsconfig4 self super)
