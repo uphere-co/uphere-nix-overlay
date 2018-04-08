@@ -42,7 +42,7 @@
 let
 
   hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs haskellLib; };
-  haskellPackages1 = pkgs.haskell.packages.ghc821.override { overrides = hsconfig1; };
+  haskellPackages1 = pkgs.haskell.packages.ghc822.override { overrides = hsconfig1; };
   fastTextNix = import (semantic-role-labeler + "/fasttext/default.nix") {
     inherit stdenv;
     haskellPackages = haskellPackages1;

@@ -36,23 +36,14 @@ let
 
 
 in self: super: {
-      "distributed-process-lifted" = haskellLib.dontCheck super.distributed-process-lifted;
-      "distributed-process" = haskellLib.overrideCabal super.distributed-process (drv: {
-        version = "0.6.6";
-        sha256 = "1l5png3jwsqa5m63szz4x669nz6qmjiwhhh26z9wql7amdfpg0g8";
+      "html-entities" = haskellLib.overrideCabal super.html-entities (drv: {
+        src = fetchgit {
+          url = "git://github.com/nikita-volkov/html-entities.git";
+          rev = "534617780c6ebd559475f336dba64a602d54fc9f";
+          sha256 = "19y7hk91854k6iz3l9n4kwsvi3q8phl7ydnwkdhz8fl96xb79235";
+        };
       });
 
-      "distributed-process-simplelocalnet" = haskellLib.overrideCabal super.distributed-process-simplelocalnet (drv: {
-        version = "0.2.3.3";
-        sha256 = "7b98498f2d6ce185ae0a855ff35e97a9ad1bd1ec7872b2d75aa0bb1f1fb24316";
-        revision = "1";
-        editedCabalFile = "4ccf03a12611141e322511b6370e2f757e215f17e68fc3f68485ec5b48fa8f70";
-      });
-
-      "syb" = haskellLib.overrideCabal super.syb (drv: {
-        version = "0.6";
-        sha256 = "1p3cnqjm13677r4a966zffzhi9b3a321aln8zs8ckqj0d9z1z3d3";
-      });
 
       "network-multicast" = haskellLib.overrideCabal super.network-multicast (drv: {
          version = "0.2.0";
@@ -167,7 +158,7 @@ in self: super: {
            doCheck = false;
          }) {};
 
-      "fficxx" = self.callPackage 
+      "fficxx" = self.callPackage
         ({ mkDerivation, base, bytestring, Cabal, containers, data-default
         , directory, either, errors, filepath, hashable, haskell-src-exts
         , lens, mtl, process, pureMD5, split, stdenv, template
@@ -185,7 +176,7 @@ in self: super: {
           ];
           description = "automatic C++ binding generation";
           license = stdenv.lib.licenses.bsd3;
-        }) {}; 
+        }) {};
 
       "fficxx-runtime" = self.callPackage
         ({ mkDerivation, base, bytestring, stdenv, template-haskell }:
@@ -269,74 +260,6 @@ in self: super: {
            license = stdenv.lib.licenses.bsd3;
          }) {};
 
-      "inline-java" = self.callPackage
-        ({ mkDerivation, base, binary, bytestring, Cabal, containers
-         , directory, distributed-closure, filepath, ghc-heap-view, hspec
-         , inline-c, jni, jvm, language-java, process, singletons, stdenv
-         , syb, template-haskell, temporary, text, thread-local-storage
-         , vector
-         , jdk
-         }:
-         mkDerivation {
-           pname = "inline-java";
-           version = "0.6.2";
-           src = inline-java-src;
-           libraryHaskellDepends = [
-             base binary bytestring Cabal containers directory
-             distributed-closure filepath ghc-heap-view inline-c jni jvm
-             language-java process singletons syb template-haskell temporary
-             text thread-local-storage vector
-           ];
-           testHaskellDepends = [
-             base bytestring hspec jni jvm singletons text
-           ];
-           buildDepends = [ jdk ];
-           homepage = "http://github.com/tweag/inline-java#readme";
-           description = "Java interop via inline Java code in Haskell modules";
-           license = stdenv.lib.licenses.bsd3;
-         }) { jdk = pkgs.jdk; };
-
-      "jvm" = self.callPackage
-        ({ mkDerivation, base, bytestring, distributed-closure, hspec, jni
-         , singletons, stdenv, text, vector
-         , jdk
-         }:
-         mkDerivation {
-           pname = "jvm";
-           version = "0.2.2";
-           src = inline-java-src + "/jvm";
-           libraryHaskellDepends = [
-             base bytestring distributed-closure jni singletons text vector
-           ];
-           testHaskellDepends = [ base bytestring hspec text ];
-           buildDepends = [ jdk ];
-           #doCheck = false;
-           homepage = "http://github.com/tweag/inline-java/tree/master/jvm#readme";
-           description = "Call JVM methods from Haskell";
-           license = stdenv.lib.licenses.bsd3;
-         }) { jdk = pkgs.jdk; };
-
-      "jni" = self.callPackage
-        ({ mkDerivation, base, bytestring, choice, constraints, containers
-         , inline-c, singletons, thread-local-storage
-         , cpphs, jdk
-         }:
-         mkDerivation {
-           pname = "jni";
-           src = inline-java-src + "/jni";
-           version = "0.3.1";
-           libraryHaskellDepends = [
-             base bytestring choice constraints containers inline-c
-             singletons thread-local-storage
-           ];
-           setupHaskellDepends = [ cpphs ];
-           configureFlags = ["--extra-lib-dirs=${jdk.jre}/lib/openjdk/jre/lib/amd64/server"];
-           librarySystemDepends = [ jdk ];
-           homepage = "https://github.com/tweag/inline-java/tree/master/jni#readme";
-           description = "Complete JNI raw bindings";
-           license = stdenv.lib.licenses.bsd3;
-           hydraPlatforms = stdenv.lib.platforms.none;
-         }) {jdk = pkgs.jdk;};
 
       "bindings-svm" = haskellLib.overrideCabal super.bindings-svm (drv: {
         patches = [./bindings-svm-openmp.patch];
@@ -452,47 +375,6 @@ in self: super: {
            license = stdenv.lib.licenses.bsd3;
          }) {};
 
-      "blaze-markup" = self.callPackage
-        ({ mkDerivation, base, blaze-builder, bytestring, containers, HUnit
-         , QuickCheck, test-framework, test-framework-hunit
-         , test-framework-quickcheck2, text
-         }:
-         mkDerivation {
-           pname = "blaze-markup";
-           version = "0.7.1.1";
-           sha256 = "00s3qlkbq9gxgy6l5skbhnl5h81mjgzqcrw3yn3wqnyd9scab3b3";
-           libraryHaskellDepends = [ base blaze-builder bytestring text ];
-           testHaskellDepends = [
-             base blaze-builder bytestring containers HUnit QuickCheck
-             test-framework test-framework-hunit test-framework-quickcheck2 text
-           ];
-           homepage = "http://jaspervdj.be/blaze";
-           description = "A blazingly fast markup combinator library for Haskell";
-           license = stdenv.lib.licenses.bsd3;
-         }) {};
-
-
-      "blaze-html" = self.callPackage
-        ({ mkDerivation, base, blaze-builder, blaze-markup, bytestring
-         , containers, HUnit, QuickCheck, test-framework
-         , test-framework-hunit, test-framework-quickcheck2, text
-         }:
-         mkDerivation {
-           pname = "blaze-html";
-           version = "0.8.1.3";
-           sha256 = "0dyn6cj5av4apmc3wav6asfap53gxy4hzdb7rph83yakscbyf5lc";
-           libraryHaskellDepends = [
-             base blaze-builder blaze-markup bytestring text
-           ];
-           testHaskellDepends = [
-             base blaze-builder blaze-markup bytestring containers HUnit
-             QuickCheck test-framework test-framework-hunit
-             test-framework-quickcheck2 text
-           ];
-           homepage = "http://jaspervdj.be/blaze";
-           description = "A blazingly fast HTML combinator library for Haskell";
-           license = stdenv.lib.licenses.bsd3;
-         }) {};
 
       "beam-core" = self.callPackage
         ({ mkDerivation, aeson, base, bytestring, containers, dlist, free
