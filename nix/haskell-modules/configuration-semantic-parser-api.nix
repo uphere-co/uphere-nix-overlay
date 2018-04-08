@@ -10,6 +10,7 @@
 , lexicon
 , lexicon-builder
 , multi-word-tagger
+, network-transport-uphere
 , nlp-pipeline
 , nlp-shared-types
 , nlp-types
@@ -58,6 +59,7 @@ let
     "lexicon"               = self.callPackage (import lexicon) {};
     "lexicon-builder"       = self.callPackage (import lexicon-builder) {};
     "multi-word-tagger"     = self.callPackage (import multi-word-tagger) {};
+    "network-transport-uphere" = self.callPackage (import network-transport-uphere) {};
     "newsapi"               = self.callPackage (import (fetchfin + "/newsapi")) {};
     "nlp-pipeline"          = self.callPackage (import nlp-pipeline) {};
     "nlp-shared-types"      = self.callPackage (import nlp-shared-types) {};

@@ -40,7 +40,7 @@ in self: super: {
         src = fetchgit {
           url = "git://github.com/nikita-volkov/html-entities.git";
           rev = "534617780c6ebd559475f336dba64a602d54fc9f";
-          sha256 = "19y7hk91854k6iz3l9n4kwsvi3q8phl7ydnwkdhz8fl96xb79235";
+          sha256 = "1cfavvwrk6w4s392csabk7k5qk5pmafrd5vkjszhb02arlzpzr04";
         };
       });
 
@@ -132,30 +132,6 @@ in self: super: {
            homepage = "https://github.com/mokus0/hs-hdf5";
            description = "Haskell interface to the HDF5 scientific data storage library";
            license = stdenv.lib.licenses.publicDomain;
-         }) {};
-      "network-transport-uphere" = self.callPackage
-        ({ mkDerivation, base, binary, bytestring, containers, data-accessor, distributed-process
-         , network, network-simple, network-transport, network-transport-tests, stm, either
-         , stdenv
-         }:
-         mkDerivation {
-           pname = "network-transport-uphere";
-           version = "0.0";
-           src = fetchgit {
-                 url = "git://github.com/uphere-co/network-transport-uphere.git";
-                 rev = "5f53fb37799ca00de2e575a6ba68781759c58eb4";
-                 sha256 = "1vgrp6x5480p9vgk1ci7qydv76r76742inm5mzvqgxsvnyv5hj77";
-           };
-           libraryHaskellDepends = [
-             base bytestring containers data-accessor network network-transport
-           ];
-           executableHaskellDepends = [
-             base binary distributed-process network-simple network-transport either stm
-           ];
-           homepage = "http://haskell-distributed.github.com";
-           description = "UpHere specific network transport";
-           license = stdenv.lib.licenses.bsd3;
-           doCheck = false;
          }) {};
 
       "fficxx" = self.callPackage
