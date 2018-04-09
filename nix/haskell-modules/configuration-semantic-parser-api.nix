@@ -10,6 +10,7 @@
 , lexicon
 , lexicon-builder
 , multi-word-tagger
+, network-transport-uphere
 , nlp-pipeline
 , nlp-shared-types
 , nlp-types
@@ -41,8 +42,8 @@
 
 let
 
-  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.0.x.nix") { inherit pkgs haskellLib; };
-  haskellPackages1 = haskellPackages.override { overrides = hsconfig1; };
+  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs haskellLib; };
+  haskellPackages1 = pkgs.haskell.packages.ghc822.override { overrides = hsconfig1; };
   fastTextNix = import (semantic-role-labeler + "/fasttext/default.nix") {
     inherit stdenv;
     haskellPackages = haskellPackages1;
@@ -58,6 +59,7 @@ let
     "lexicon"               = self.callPackage (import lexicon) {};
     "lexicon-builder"       = self.callPackage (import lexicon-builder) {};
     "multi-word-tagger"     = self.callPackage (import multi-word-tagger) {};
+    "network-transport-uphere" = self.callPackage (import network-transport-uphere) {};
     "newsapi"               = self.callPackage (import (fetchfin + "/newsapi")) {};
     "nlp-pipeline"          = self.callPackage (import nlp-pipeline) {};
     "nlp-shared-types"      = self.callPackage (import nlp-shared-types) {};

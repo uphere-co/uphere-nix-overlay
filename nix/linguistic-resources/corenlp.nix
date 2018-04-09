@@ -2,10 +2,13 @@
 
 { 
   corenlp = srcOnly {
-    name = "corenlp-20161031";
+    name = "corenlp-20161031-patched";
     src = fetchzip {
       url = "http://nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip";
       sha256 = "0lm4rhvhfi54y01ad40g3v9qdw5qk5982fqfa465x2s9g7fxknmv";
+      extraPostFetch = ''
+        chmod go-w $out
+      '';
     };
   };
   corenlp_models = fetchurl {
