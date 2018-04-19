@@ -30,8 +30,8 @@ let
 
     beam-src = fetchgit {
       url = "git://github.com/tathougies/beam.git";
-      rev = "40928fb837cc875d0d8cd21db59cada532f4d767";
-      sha256 = "1g012wpvds2y0i7l5wafxraxr0zfjpqsir2xjhsmncdcdpbs2h0d";
+      rev = "ba7c05a743d1924588a436d34c741a949adb2cdd";
+      sha256 = "0dhdxnb3k9z6mcsaqk78fpj3p6s8ndjmr6s8i00bwbv6g2s8dxs5";
     };
 
 
@@ -359,7 +359,7 @@ in self: super: {
          }:
          mkDerivation {
            pname = "beam-core";
-           version = "0.6.0.0";
+           version = "0.7.2.0";
            src = "${beam-src}/beam-core";
            libraryHaskellDepends = [
              aeson base bytestring containers dlist free ghc-prim hashable
@@ -381,7 +381,7 @@ in self: super: {
          }:
          mkDerivation {
            pname = "beam-migrate";
-           version = "0.2.0.0";
+           version = "0.3.1.0";
            src = "${beam-src}/beam-migrate";
            libraryHaskellDepends = [
              aeson base beam-core bytestring containers deepseq dependent-map
@@ -401,7 +401,7 @@ in self: super: {
          }:
          mkDerivation {
            pname = "beam-postgres";
-           version = "0.2.0.0";
+           version = "0.3.2.0";
            src = "${beam-src}/beam-postgres";
            libraryHaskellDepends = [
              aeson base beam-core beam-migrate bytestring case-insensitive
