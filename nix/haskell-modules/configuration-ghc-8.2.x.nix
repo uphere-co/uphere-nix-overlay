@@ -17,8 +17,8 @@ let
 
     fficxxSrc = fetchgit {
                   url = "git://github.com/wavewave/fficxx.git";
-                  rev = "eeb2d236dda5ae422ce80d4b6bcd851fd9e70499";
-                  sha256 = "0d0wckmy5vs3vq6gh1sawxzmq169nz9kpg4wq5ap9fz5k18h54wm";
+                  rev = "c75ce1be0227afaff7c77bc0fc9ef8d19cdcb9bc";
+                  sha256 = "18y9k3va411n8vh1w93b24jp3xyrq1fksdvbx4h7qpv5917y3vn9";
                 };
 
     protocol-buffers-src = fetchgit {
