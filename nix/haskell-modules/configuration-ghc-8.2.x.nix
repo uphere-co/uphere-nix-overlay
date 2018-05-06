@@ -397,6 +397,7 @@ in self: super: {
          , case-insensitive, conduit, free, hashable, haskell-src-exts, mtl
          , network-uri, postgresql-libpq, postgresql-simple, scientific
          , stdenv, text, time, unordered-containers, uuid, vector
+         , lifted-base, monad-control
          }:
          mkDerivation {
            pname = "beam-postgres";
@@ -407,8 +408,9 @@ in self: super: {
              conduit free hashable haskell-src-exts mtl network-uri
              postgresql-libpq postgresql-simple scientific text time
              unordered-containers uuid vector
+             lifted-base monad-control
            ];
-           jailbreak = true;
+           #jailbreak = true;
            homepage = "http://travis.athougies.net/projects/beam.html";
            description = "Connection layer between beam and postgres";
            license = stdenv.lib.licenses.mit;
