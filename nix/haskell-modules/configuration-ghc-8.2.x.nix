@@ -1,5 +1,4 @@
-{ pkgs
-, haskellLib }:
+{ pkgs }:
 
 with pkgs;
 
@@ -36,7 +35,7 @@ let
 
 
 in self: super: {
-      "html-entities" = haskellLib.overrideCabal super.html-entities (drv: {
+      "html-entities" = haskell.lib.overrideCabal super.html-entities (drv: {
         src = fetchgit {
           url = "git://github.com/nikita-volkov/html-entities.git";
           rev = "534617780c6ebd559475f336dba64a602d54fc9f";
@@ -45,7 +44,7 @@ in self: super: {
       });
 
 
-      "network-multicast" = haskellLib.overrideCabal super.network-multicast (drv: {
+      "network-multicast" = haskell.lib.overrideCabal super.network-multicast (drv: {
          version = "0.2.0";
          sha256 = "0f3b50abc3a401c20cc6a0ec51a49d2a48e5b467d9fbd63b7cf803165fe975f2";
        });
@@ -82,12 +81,12 @@ in self: super: {
          }) { inherit (pkgs) liblapack;};
 
       llvm-general-pure =
-        let p1 = haskellLib.overrideCabal super.llvm-general-pure (drv: {
+        let p1 = haskell.lib.overrideCabal super.llvm-general-pure (drv: {
                    src = "${llvmGeneralSrc}/llvm-general-pure";
                  });
-        in haskellLib.addBuildDepend p1 self.transformers-compat;
+        in haskell.lib.addBuildDepend p1 self.transformers-compat;
 
-      llvm-general = haskellLib.overrideCabal super.llvm-general (drv: {
+      llvm-general = haskell.lib.overrideCabal super.llvm-general (drv: {
         src = "${llvmGeneralSrc}/llvm-general";
         libraryToolDepends = [ llvm_38 ];
       });
@@ -237,7 +236,7 @@ in self: super: {
          }) {};
 
 
-      "bindings-svm" = haskellLib.overrideCabal super.bindings-svm (drv: {
+      "bindings-svm" = haskell.lib.overrideCabal super.bindings-svm (drv: {
         patches = [./bindings-svm-openmp.patch];
         librarySystemDepends = [ pkgs.libsvm ];
       });
@@ -416,4 +415,25 @@ in self: super: {
 
       "thrift" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.thrift);
 
+      "network-transport-tcp" =
+         haskell.lib.overrideCabal
+           (haskell.lib.addBuildDepend  super.network-transport-tcp (self.uuid))
+           (drv: {
+              src = fetchgit {
+                url = "git://github.com/haskell-distributed/network-transport-tcp";
+                rev = "6a67f49717c2269e4b17995155c7a908c6f363ee";
+                sha256 = "0919j3rrwiq4l9hk0p8a346jglshg14dl2ffrp5r486xwvl6ijs6";
+              };
+            });
+
+      "distributed-process-lifted" =
+        haskell.lib.overrideCabal super.distributed-process-lifted
+         (drv: {
+            src = fetchgit {
+              url = "git://github.com/jeremyjh/distributed-process-lifted.git";
+              rev = "ed2189e97da2e16e50a547c9b59d74e80c6cfa63";
+              sha256 = "1ych6k2wyfqcsyj1mbdm1swnx56x9bjnxpqgyzfvaii201ncklij";
+            };
+            doCheck = false;
+          });
     }
