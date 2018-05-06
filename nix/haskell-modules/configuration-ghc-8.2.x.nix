@@ -224,9 +224,9 @@ in self: super: {
            pname = "yayaml";
            version = "0.0.999";
            src = fetchgit {
-             url = "https://github.com/uphere-co/yayaml.git";
-             rev = "653a69fe44e6b862ebcb273a38588b757abc4503";
-             sha256 = "0hd3k72ab1d2jc42x5a4g3sjkan180cdwc1ghlzy93kbabam8vbg";
+             url = "https://github.com/wavewave/yayaml.git";
+             rev = "68ef0ef68e5d1e4e896a0884f9b9df316cff35ec";
+             sha256 = "1zhpm47ivk4nn2l39z50smvg1mws5rma9bq2qbfs62dszs1y7mvj";
            };
            libraryHaskellDepends = [
              attoparsec base bytestring filepath scientific text transformers
