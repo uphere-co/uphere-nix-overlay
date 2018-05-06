@@ -408,6 +408,7 @@ in self: super: {
              postgresql-libpq postgresql-simple scientific text time
              unordered-containers uuid vector
            ];
+           jailbreak = true;
            homepage = "http://travis.athougies.net/projects/beam.html";
            description = "Connection layer between beam and postgres";
            license = stdenv.lib.licenses.mit;
