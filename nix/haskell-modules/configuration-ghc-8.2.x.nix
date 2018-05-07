@@ -379,7 +379,6 @@ in self: super: {
              unordered-containers uuid vector
              lifted-base monad-control
            ];
-           #jailbreak = true;
            homepage = "http://travis.athougies.net/projects/beam.html";
            description = "Connection layer between beam and postgres";
            license = stdenv.lib.licenses.mit;
