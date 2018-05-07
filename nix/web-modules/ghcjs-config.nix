@@ -32,6 +32,26 @@ in
 
 {
   Cabal = self.Cabal_1_24_2_0;
+
+  "either" = self.callPackage
+    ({ mkDerivation, base, bifunctors, exceptions, free, mmorph
+     , monad-control, MonadRandom, mtl, profunctors, semigroupoids
+     , semigroups, stdenv, transformers, transformers-base
+     }:
+     mkDerivation {
+       pname = "either";
+       version = "4.5";
+       libraryHaskellDepends = [
+         base bifunctors exceptions free mmorph monad-control MonadRandom
+         mtl profunctors semigroupoids semigroups transformers
+         transformers-base
+       ];
+       homepage = "http://github.com/ekmett/either/";
+       description = "An either monad transformer";
+       license = stdenv.lib.licenses.bsd3;
+     }) {};
+
+
   #ghcjs-dom-jsaddle = dontHaddock ghcjsDom.ghcjs-dom-jsaddle;
   #ghcjs-dom = dontHaddock ghcjsDom.ghcjs-dom;
   #inherit (ghcjsDom) ghcjs-dom-jsffi;
