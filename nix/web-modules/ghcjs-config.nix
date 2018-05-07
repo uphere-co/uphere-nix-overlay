@@ -46,6 +46,7 @@ in
          mtl profunctors semigroupoids semigroups transformers
          transformers-base
        ];
+       jailbreak = true;
        homepage = "http://github.com/ekmett/either/";
        description = "An either monad transformer";
        license = stdenv.lib.licenses.bsd3;
