@@ -185,36 +185,6 @@ in self: super: {
             license = stdenv.lib.licenses.bsd3;
           }) {};
 
-      "opaleye_0_5_0_0" = self.callPackage
-         ({ mkDerivation, aeson, attoparsec, base, base16-bytestring
-          , bytestring, case-insensitive, containers, contravariant, multiset
-          , postgresql-simple, pretty, product-profunctors, profunctors
-          , QuickCheck, semigroups, stdenv, text, time, time-locale-compat
-          , transformers, uuid, void
-          }:
-          mkDerivation {
-            pname = "opaleye";
-            version = "0.5.0.0";
-            src = fetchgit {
-              url = "git://github.com/tomjaguarpaw/haskell-opaleye.git";
-              rev = "738ed9523884cb97af883222cbbe80184f8d5569";
-              sha256 = "1g9y0nm2qsq5rdkifhxr89fjagnzxilf0x9lzmqpz79lcww91k0h";
-            };
-            libraryHaskellDepends = [
-              aeson attoparsec base base16-bytestring bytestring case-insensitive
-              contravariant postgresql-simple pretty product-profunctors
-              profunctors semigroups text time time-locale-compat transformers
-              uuid void
-            ];
-            testHaskellDepends = [
-              base containers contravariant multiset postgresql-simple
-              product-profunctors profunctors QuickCheck semigroups time
-            ];
-            homepage = "https://github.com/tomjaguarpaw/haskell-opaleye";
-            description = "An SQL-generating DSL targeting PostgreSQL";
-            license = stdenv.lib.licenses.bsd3;
-            doCheck = false;
-          }) {};
 
       "yayaml" = self.callPackage
         ({ mkDerivation, attoparsec, base, bytestring, filepath, scientific
@@ -234,7 +204,6 @@ in self: super: {
            description = "Yet Another YAML library";
            license = stdenv.lib.licenses.bsd3;
          }) {};
-
 
       "bindings-svm" = haskell.lib.overrideCabal super.bindings-svm (drv: {
         patches = [./bindings-svm-openmp.patch];
