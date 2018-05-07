@@ -20,7 +20,6 @@
 , semantic-parser-api-ghcjs
 , semantic-role-labeler
 , semantic-types
-#, syntactic-analysis
 , textview
 , time-tagger
 , uphere-db
@@ -37,12 +36,11 @@
 , stdenv
 , jdk
 , fasttext
-, haskellLib
 }:
 
 let
 
-  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs haskellLib; };
+  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs; };
   haskellPackages1 = pkgs.haskell.packages.ghc822.override { overrides = hsconfig1; };
   fastTextNix = import (semantic-role-labeler + "/fasttext/default.nix") {
     inherit stdenv;
@@ -82,7 +80,7 @@ let
   };
   ukb = import (uphere-nix-overlay + "/nix/cpp-modules/ukb.nix") { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
 
-  hsconfig3 = import (HUKB+ "/HUKB-driver/config.nix") { inherit uphere-nix-overlay ukb haskellLib; };
+  hsconfig3 = import (HUKB+ "/HUKB-driver/config.nix") { inherit uphere-nix-overlay ukb; };
   hsconfig4 =
     self: super: {
       "HUKB-driver" = self.callPackage (import (HUKB + "/HUKB-driver")) {};

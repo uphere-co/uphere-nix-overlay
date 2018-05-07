@@ -1,5 +1,4 @@
-{ pkgs
-, haskellLib }:
+{ pkgs }:
 
 with pkgs;
 
@@ -18,8 +17,8 @@ let
 
     fficxxSrc = fetchgit {
                   url = "git://github.com/wavewave/fficxx.git";
-                  rev = "eeb2d236dda5ae422ce80d4b6bcd851fd9e70499";
-                  sha256 = "0d0wckmy5vs3vq6gh1sawxzmq169nz9kpg4wq5ap9fz5k18h54wm";
+                  rev = "c75ce1be0227afaff7c77bc0fc9ef8d19cdcb9bc";
+                  sha256 = "18y9k3va411n8vh1w93b24jp3xyrq1fksdvbx4h7qpv5917y3vn9";
                 };
 
     protocol-buffers-src = fetchgit {
@@ -36,7 +35,7 @@ let
 
 
 in self: super: {
-      "html-entities" = haskellLib.overrideCabal super.html-entities (drv: {
+      "html-entities" = haskell.lib.overrideCabal super.html-entities (drv: {
         src = fetchgit {
           url = "git://github.com/nikita-volkov/html-entities.git";
           rev = "534617780c6ebd559475f336dba64a602d54fc9f";
@@ -45,7 +44,7 @@ in self: super: {
       });
 
 
-      "network-multicast" = haskellLib.overrideCabal super.network-multicast (drv: {
+      "network-multicast" = haskell.lib.overrideCabal super.network-multicast (drv: {
          version = "0.2.0";
          sha256 = "0f3b50abc3a401c20cc6a0ec51a49d2a48e5b467d9fbd63b7cf803165fe975f2";
        });
@@ -82,12 +81,12 @@ in self: super: {
          }) { inherit (pkgs) liblapack;};
 
       llvm-general-pure =
-        let p1 = haskellLib.overrideCabal super.llvm-general-pure (drv: {
+        let p1 = haskell.lib.overrideCabal super.llvm-general-pure (drv: {
                    src = "${llvmGeneralSrc}/llvm-general-pure";
                  });
-        in haskellLib.addBuildDepend p1 self.transformers-compat;
+        in haskell.lib.addBuildDepend p1 self.transformers-compat;
 
-      llvm-general = haskellLib.overrideCabal super.llvm-general (drv: {
+      llvm-general = haskell.lib.overrideCabal super.llvm-general (drv: {
         src = "${llvmGeneralSrc}/llvm-general";
         libraryToolDepends = [ llvm_38 ];
       });
@@ -186,36 +185,6 @@ in self: super: {
             license = stdenv.lib.licenses.bsd3;
           }) {};
 
-      "opaleye_0_5_0_0" = self.callPackage
-         ({ mkDerivation, aeson, attoparsec, base, base16-bytestring
-          , bytestring, case-insensitive, containers, contravariant, multiset
-          , postgresql-simple, pretty, product-profunctors, profunctors
-          , QuickCheck, semigroups, stdenv, text, time, time-locale-compat
-          , transformers, uuid, void
-          }:
-          mkDerivation {
-            pname = "opaleye";
-            version = "0.5.0.0";
-            src = fetchgit {
-              url = "git://github.com/tomjaguarpaw/haskell-opaleye.git";
-              rev = "738ed9523884cb97af883222cbbe80184f8d5569";
-              sha256 = "1g9y0nm2qsq5rdkifhxr89fjagnzxilf0x9lzmqpz79lcww91k0h";
-            };
-            libraryHaskellDepends = [
-              aeson attoparsec base base16-bytestring bytestring case-insensitive
-              contravariant postgresql-simple pretty product-profunctors
-              profunctors semigroups text time time-locale-compat transformers
-              uuid void
-            ];
-            testHaskellDepends = [
-              base containers contravariant multiset postgresql-simple
-              product-profunctors profunctors QuickCheck semigroups time
-            ];
-            homepage = "https://github.com/tomjaguarpaw/haskell-opaleye";
-            description = "An SQL-generating DSL targeting PostgreSQL";
-            license = stdenv.lib.licenses.bsd3;
-            doCheck = false;
-          }) {};
 
       "yayaml" = self.callPackage
         ({ mkDerivation, attoparsec, base, bytestring, filepath, scientific
@@ -225,9 +194,9 @@ in self: super: {
            pname = "yayaml";
            version = "0.0.999";
            src = fetchgit {
-             url = "https://github.com/uphere-co/yayaml.git";
-             rev = "653a69fe44e6b862ebcb273a38588b757abc4503";
-             sha256 = "0hd3k72ab1d2jc42x5a4g3sjkan180cdwc1ghlzy93kbabam8vbg";
+             url = "https://github.com/wavewave/yayaml.git";
+             rev = "68ef0ef68e5d1e4e896a0884f9b9df316cff35ec";
+             sha256 = "1zhpm47ivk4nn2l39z50smvg1mws5rma9bq2qbfs62dszs1y7mvj";
            };
            libraryHaskellDepends = [
              attoparsec base bytestring filepath scientific text transformers
@@ -236,8 +205,7 @@ in self: super: {
            license = stdenv.lib.licenses.bsd3;
          }) {};
 
-
-      "bindings-svm" = haskellLib.overrideCabal super.bindings-svm (drv: {
+      "bindings-svm" = haskell.lib.overrideCabal super.bindings-svm (drv: {
         patches = [./bindings-svm-openmp.patch];
         librarySystemDepends = [ pkgs.libsvm ];
       });
@@ -398,6 +366,7 @@ in self: super: {
          , case-insensitive, conduit, free, hashable, haskell-src-exts, mtl
          , network-uri, postgresql-libpq, postgresql-simple, scientific
          , stdenv, text, time, unordered-containers, uuid, vector
+         , lifted-base, monad-control
          }:
          mkDerivation {
            pname = "beam-postgres";
@@ -408,6 +377,7 @@ in self: super: {
              conduit free hashable haskell-src-exts mtl network-uri
              postgresql-libpq postgresql-simple scientific text time
              unordered-containers uuid vector
+             lifted-base monad-control
            ];
            homepage = "http://travis.athougies.net/projects/beam.html";
            description = "Connection layer between beam and postgres";
@@ -416,4 +386,25 @@ in self: super: {
 
       "thrift" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.thrift);
 
+      "network-transport-tcp" =
+         haskell.lib.overrideCabal
+           (haskell.lib.addBuildDepend  super.network-transport-tcp (self.uuid))
+           (drv: {
+              src = fetchgit {
+                url = "git://github.com/haskell-distributed/network-transport-tcp";
+                rev = "6a67f49717c2269e4b17995155c7a908c6f363ee";
+                sha256 = "0919j3rrwiq4l9hk0p8a346jglshg14dl2ffrp5r486xwvl6ijs6";
+              };
+            });
+
+      "distributed-process-lifted" =
+        haskell.lib.overrideCabal super.distributed-process-lifted
+         (drv: {
+            src = fetchgit {
+              url = "git://github.com/jeremyjh/distributed-process-lifted.git";
+              rev = "ed2189e97da2e16e50a547c9b59d74e80c6cfa63";
+              sha256 = "1ych6k2wyfqcsyj1mbdm1swnx56x9bjnxpqgyzfvaii201ncklij";
+            };
+            doCheck = false;
+          });
     }
