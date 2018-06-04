@@ -386,6 +386,15 @@ in self: super: {
 
       "thrift" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.thrift);
 
+      "network-transport" = self.callCabal2nix
+        "network-transport"
+        (pkgs.fetchFromGitHub {
+          owner = "haskell-distributed";
+          repo = "network-transport";
+          rev = "4d57d8575f83af17498e60f378ba65be9b9e3027";
+          sha256 = "13jrfshlcp99w29inlkmm7m0cj3xz0lrfgfyw8fjkhnlwg7yllhl";
+        }) {};
+
       "network-transport-tcp" =
          haskell.lib.overrideCabal
            (haskell.lib.addBuildDepend  super.network-transport-tcp (self.uuid))
@@ -407,4 +416,139 @@ in self: super: {
             };
             doCheck = false;
           });
+
+      "inline-c" = self.callPackage
+        ({ mkDerivation, ansi-wl-pprint, base, bytestring, containers
+         , hashable, hspec, mtl, parsec, parsers, QuickCheck, raw-strings-qq
+         , regex-posix, template-haskell, transformers, unordered-containers
+         , vector
+         }:
+         mkDerivation {
+           pname = "inline-c";
+           version = "0.6.0.5";
+           sha256 = "0fy19z3r6xyzhkkagi050rasc4ak8xmvdgidy4wplayck9fr3z47";
+           isLibrary = true;
+           isExecutable = true;
+           libraryHaskellDepends = [
+             ansi-wl-pprint base bytestring containers hashable mtl parsec
+             parsers template-haskell transformers unordered-containers vector
+           ];
+           testHaskellDepends = [
+             ansi-wl-pprint base containers hashable hspec parsers QuickCheck
+             raw-strings-qq regex-posix template-haskell transformers
+             unordered-containers vector
+           ];
+           description = "Write Haskell source files including C code inline. No FFI required.";
+           license = stdenv.lib.licenses.mit;
+         }) {};
+
+      "inline-java" =
+         let
+
+           inline-java_1 = self.callPackage
+             ({ mkDerivation, base, bytestring, Cabal, directory, filepath, ghc
+              , hspec, jni, jvm, language-java, mtl, process, template-haskell
+              , temporary, text
+              }:
+              mkDerivation {
+                pname = "inline-java";
+                version = "0.8.2";
+                sha256 = "0f38w4p29xzrzqjdn2r3yfh2m9iai6dwbj52jhrliiy87gnvwwmy";
+                libraryHaskellDepends = [
+                  base bytestring Cabal directory filepath ghc jni jvm language-java
+                  mtl process template-haskell temporary text
+                ];
+                testHaskellDepends = [ base hspec jni jvm text ];
+                homepage = "http://github.com/tweag/inline-java#readme";
+                description = "Java interop via inline Java code in Haskell modules";
+                license = stdenv.lib.licenses.bsd3;
+              }) {};
+        in haskell.lib.addBuildDepend inline-java_1 pkgs.jdk;
+
+
+      "jni" =
+        let
+
+          jni_1 = self.callPackage
+            ({ mkDerivation, base, bytestring, choice, constraints, containers
+             , cpphs, deepseq, inline-c, jdk, singletons
+             }:
+             mkDerivation {
+               pname = "jni";
+               version = "0.6.0";
+               sha256 = "04phf6sqfp8g9rqfj2lxg2j43350wlini1dnsjwyr6yvy888z9ba";
+               libraryHaskellDepends = [
+                 base bytestring choice constraints containers deepseq inline-c
+                 singletons
+               ];
+               librarySystemDepends = [ jdk ];
+               libraryToolDepends = [ cpphs ];
+               homepage = "https://github.com/tweag/inline-java/tree/master/jni#readme";
+               description = "Complete JNI raw bindings";
+               license = stdenv.lib.licenses.bsd3;
+             }) {}; # {inherit (pkgs) jdk;};
+           in   # jni needs help finding libjvm.so because it's in a weird location.
+              haskell.lib.overrideCabal jni_1 (drv: {
+                preConfigure = ''
+                  local libdir=( "${pkgs.jdk}/lib/openjdk/jre/lib/"*"/server" )
+                  configureFlags+=" --extra-lib-dir=''${libdir[0]}"
+               '';
+              });
+
+
+      "jvm" = self.callPackage
+        ({ mkDerivation, base, bytestring, choice, constraints, criterion
+         , deepseq, distributed-closure, exceptions, hspec, jni, singletons
+         , text, vector
+         }:
+         mkDerivation {
+           pname = "jvm";
+           version = "0.4.2";
+           sha256 = "1z3lk2f7bmhi8bj4v32fymjr2bf9czjd73qm6gk33z4mxknddwbh";
+           libraryHaskellDepends = [
+             base bytestring choice constraints distributed-closure exceptions
+             jni singletons text vector
+           ];
+           testHaskellDepends = [ base bytestring hspec jni text ];
+           benchmarkHaskellDepends = [
+             base criterion deepseq jni singletons
+           ];
+           homepage = "http://github.com/tweag/inline-java/tree/master/jvm#readme";
+           description = "Call JVM methods from Haskell";
+           license = stdenv.lib.licenses.bsd3;
+         }) {};
+
+
+      "singletons" = self.callCabal2nix
+        "singletons"
+        (pkgs.fetchFromGitHub {
+          owner = "goldfirere";
+          repo = "singletons";
+          rev = "d0fdb2cf02f29d6d076354696aaceb57f2715c85";
+          sha256 = "0rmrin5i899vfqqm47b2lkij47i2ai18714xs8zq2vb267hhqngk";
+        }) {};
+
+      "th-desugar" = self.callCabal2nix
+        "th-desugar"
+        (pkgs.fetchFromGitHub {
+          owner = "goldfirere";
+          repo = "th-desugar";
+          rev = "f3f23bec71db8b13544773d0190fc028c1c716d2";
+          sha256 = "1bn2qx533k4vf1lf329hl8v6kf5n1kar4psb9q3ax7bgs85k5icz";
+        }) {};
+
+      "transformers-either" = self.callCabal2nix
+        "transformers-either"
+        (pkgs.fetchFromGitHub {
+          owner = "tmcgilchrist";
+          repo = "transformers-either";
+          rev = "9c13ec6fda4c7f64185ceea442583fdd09bffe1b";
+          sha256 = "1v9izx779xvir4f4cg9rccmghgxc9g79p9hqz5wmhqkqk9rlfy77";
+        }) {};
+
+      "rank1dynamic" = haskell.lib.overrideCabal super.rank1dynamic (drv: {
+        version = "0.4.0";
+        sha256 = "07dbfp0sc32q1p8xh4ap8m3b287r9hh4r8vfsrppdm5pabz4nhiw";
+      });
+
     }
