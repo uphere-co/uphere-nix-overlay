@@ -442,25 +442,58 @@ in self: super: {
            license = stdenv.lib.licenses.mit;
          }) {};
 
+      "inline-java" =
+         let
 
-      "jni" = self.callPackage
-        ({ mkDerivation, base, bytestring, choice, constraints, containers
-         , cpphs, deepseq, inline-c, jdk, singletons
-         }:
-         mkDerivation {
-           pname = "jni";
-           version = "0.6.0";
-           sha256 = "04phf6sqfp8g9rqfj2lxg2j43350wlini1dnsjwyr6yvy888z9ba";
-           libraryHaskellDepends = [
-             base bytestring choice constraints containers deepseq inline-c
-             singletons
-           ];
-           librarySystemDepends = [ jdk ];
-           libraryToolDepends = [ cpphs ];
-           homepage = "https://github.com/tweag/inline-java/tree/master/jni#readme";
-           description = "Complete JNI raw bindings";
-           license = stdenv.lib.licenses.bsd3;
-         }) {inherit (pkgs) jdk;};
+           inline-java_1 = self.callPackage
+             ({ mkDerivation, base, bytestring, Cabal, directory, filepath, ghc
+              , hspec, jni, jvm, language-java, mtl, process, template-haskell
+              , temporary, text
+              }:
+              mkDerivation {
+                pname = "inline-java";
+                version = "0.8.2";
+                sha256 = "0f38w4p29xzrzqjdn2r3yfh2m9iai6dwbj52jhrliiy87gnvwwmy";
+                libraryHaskellDepends = [
+                  base bytestring Cabal directory filepath ghc jni jvm language-java
+                  mtl process template-haskell temporary text
+                ];
+                testHaskellDepends = [ base hspec jni jvm text ];
+                homepage = "http://github.com/tweag/inline-java#readme";
+                description = "Java interop via inline Java code in Haskell modules";
+                license = stdenv.lib.licenses.bsd3;
+              }) {};
+        in haskell.lib.addBuildDepend inline-java_1 pkgs.jdk;
+
+
+      "jni" =
+        let
+
+          jni_1 = self.callPackage
+            ({ mkDerivation, base, bytestring, choice, constraints, containers
+             , cpphs, deepseq, inline-c, jdk, singletons
+             }:
+             mkDerivation {
+               pname = "jni";
+               version = "0.6.0";
+               sha256 = "04phf6sqfp8g9rqfj2lxg2j43350wlini1dnsjwyr6yvy888z9ba";
+               libraryHaskellDepends = [
+                 base bytestring choice constraints containers deepseq inline-c
+                 singletons
+               ];
+               librarySystemDepends = [ jdk ];
+               libraryToolDepends = [ cpphs ];
+               homepage = "https://github.com/tweag/inline-java/tree/master/jni#readme";
+               description = "Complete JNI raw bindings";
+               license = stdenv.lib.licenses.bsd3;
+             }) {}; # {inherit (pkgs) jdk;};
+           in   # jni needs help finding libjvm.so because it's in a weird location.
+              haskell.lib.overrideCabal jni_1 (drv: {
+                preConfigure = ''
+                  local libdir=( "${pkgs.jdk}/lib/openjdk/jre/lib/"*"/server" )
+                  configureFlags+=" --extra-lib-dir=''${libdir[0]}"
+               '';
+              });
 
 
       "jvm" = self.callPackage
@@ -493,7 +526,7 @@ in self: super: {
           repo = "singletons";
           rev = "d0fdb2cf02f29d6d076354696aaceb57f2715c85";
           sha256 = "0rmrin5i899vfqqm47b2lkij47i2ai18714xs8zq2vb267hhqngk";
-        }) {}; 
+        }) {};
 
       "th-desugar" = self.callCabal2nix
         "th-desugar"
