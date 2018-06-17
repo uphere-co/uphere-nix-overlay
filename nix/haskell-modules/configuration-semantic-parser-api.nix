@@ -2,31 +2,17 @@
 , uphere-nix-overlay
 , event-analyzer
 , fetchfin
-, graph-algorithms
 , HCoreNLP
-, HFrameNet
 , HUKB
-, HWordNet
-, lexicon
-, lexicon-builder
-, multi-word-tagger
 , network-transport-uphere
+, language-engine
 , nlp-pipeline
 , nlp-shared-types
-, nlp-types
-, OntoNotes
-, PropBank
-, semantic-parser-api-compute
-, semantic-parser-api-ghcjs
-, semantic-role-labeler
-, semantic-types
+, compute-engine
 , textview
-, time-tagger
 , uphere-db
 , uphere-network-util
 , uphere-opaleye
-, VerbNet
-, wiki-ner
 , corenlp
 , corenlp_models
 #
@@ -42,7 +28,7 @@ let
 
   hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs; };
   haskellPackages1 = pkgs.haskell.packages.ghc821.override { overrides = hsconfig1; };
-  fastTextNix = import (semantic-role-labeler + "/fasttext/default.nix") {
+  fastTextNix = import (language-engine + "/fasttext/default.nix") {
     inherit stdenv;
     haskellPackages = haskellPackages1;
   };
@@ -56,7 +42,7 @@ let
     "nlp-shared-types"      = self.callPackage (import nlp-shared-types) {};
     "rss-scraper"           = self.callPackage (import (fetchfin + "/rss-scraper")) {};
 
-    "semantic-parser-api-compute" = self.callPackage (import semantic-parser-api-compute) {};
+    "compute-engine"        = self.callPackage (import compute-engine) {};
     "textview"              = self.callPackage (import textview) {};
     "uphere-db"             = self.callPackage (import uphere-db) {};
     "uphere-network-util" = self.callPackage (import uphere-network-util) {};
@@ -64,25 +50,25 @@ let
 
     # LANGUAGE ENGINE
     "fastText"              = self.callPackage fastTextNix { inherit fasttext; };
-    "graph-algorithms"      = self.callPackage (import (semantic-role-labeler + "/graph-algorithms"))    {};
-    "HFrameNet"             = self.callPackage (import (semantic-role-labeler + "/HFrameNet")) {};
-    "HWordNet"              = self.callPackage (import (semantic-role-labeler + "/HWordNet")) {};
-    "lexicon"               = self.callPackage (import (semantic-role-labeler + "/lexicon")) {};
-    "lexicon-builder"       = self.callPackage (import (semantic-role-labeler + "/lexicon-builder")) {};
+    "graph-algorithms"      = self.callPackage (import (language-engine + "/graph-algorithms"))    {};
+    "HFrameNet"             = self.callPackage (import (language-engine + "/HFrameNet")) {};
+    "HWordNet"              = self.callPackage (import (language-engine + "/HWordNet")) {};
+    "lexicon"               = self.callPackage (import (language-engine + "/lexicon")) {};
+    "lexicon-builder"       = self.callPackage (import (language-engine + "/lexicon-builder")) {};
 
-    "multi-word-tagger"     = self.callPackage (import (semantic-role-labeler + "/multi-word-tagger")) {};
-    "nlp-types"             = self.callPackage (import (semantic-role-labeler + "/nlp-types")) {};
+    "multi-word-tagger"     = self.callPackage (import (language-engine + "/multi-word-tagger")) {};
+    "nlp-types"             = self.callPackage (import (language-engine + "/nlp-types")) {};
 
-    "OntoNotes"             = self.callPackage (import (semantic-role-labeler + "/OntoNotes")) {};
-    "PropBank"              = self.callPackage (import (semantic-role-labeler + "/PropBank")) {};
+    "OntoNotes"             = self.callPackage (import (language-engine + "/OntoNotes")) {};
+    "PropBank"              = self.callPackage (import (language-engine + "/PropBank")) {};
 
-    "semantic-role-labeler" = self.callPackage (import (semantic-role-labeler + "/semantic-role-labeler")) {};
-    "semantic-types"        = self.callPackage (import (semantic-role-labeler + "/semantic-types")) {};
-    "syntactic-analysis"    = self.callPackage (import (semantic-role-labeler + "/syntactic-analysis")) {};
-    "time-tagger"           = self.callPackage (import (semantic-role-labeler + "/time-tagger")) {};
+    "semantic-role-labeler" = self.callPackage (import (language-engine + "/semantic-role-labeler")) {};
+    "semantic-types"        = self.callPackage (import (language-engine + "/semantic-types")) {};
+    "syntactic-analysis"    = self.callPackage (import (language-engine + "/syntactic-analysis")) {};
+    "time-tagger"           = self.callPackage (import (language-engine + "/time-tagger")) {};
 
-    "VerbNet"               = self.callPackage (import (semantic-role-labeler + "/VerbNet")) {};
-    "wiki-ner"              = self.callPackage (import (semantic-role-labeler + "/wiki-ner")) {};
+    "VerbNet"               = self.callPackage (import (language-engine + "/VerbNet")) {};
+    "wiki-ner"              = self.callPackage (import (language-engine + "/wiki-ner")) {};
 
   };
   ukb = import (uphere-nix-overlay + "/nix/cpp-modules/ukb.nix") { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
