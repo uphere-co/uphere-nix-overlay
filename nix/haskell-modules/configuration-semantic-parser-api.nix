@@ -48,27 +48,28 @@ let
     "uphere-network-util" = self.callPackage (import uphere-network-util) {};
     "uphere-opaleye"        = self.callPackage (import uphere-opaleye) {};
 
-    # LANGUAGE ENGINE
+    # TODO: will merge to LANGUAGE ENGINE
+    # LANGUAGE ENGINE - pre
     "fastText"              = self.callPackage fastTextNix { inherit fasttext; };
-    "graph-algorithms"      = self.callPackage (import (language-engine + "/graph-algorithms"))    {};
-    "HFrameNet"             = self.callPackage (import (language-engine + "/HFrameNet")) {};
     "HWordNet"              = self.callPackage (import (language-engine + "/HWordNet")) {};
-    "lexicon"               = self.callPackage (import (language-engine + "/lexicon")) {};
-    "lexicon-builder"       = self.callPackage (import (language-engine + "/lexicon-builder")) {};
-
-    "multi-word-tagger"     = self.callPackage (import (language-engine + "/multi-word-tagger")) {};
     "nlp-types"             = self.callPackage (import (language-engine + "/nlp-types")) {};
 
-    "OntoNotes"             = self.callPackage (import (language-engine + "/OntoNotes")) {};
-    "PropBank"              = self.callPackage (import (language-engine + "/PropBank")) {};
+    # LANGUAGE ENGINE
+    "graph-algorithms"      = self.callCabal2nix "graph-algorithms" (language-engine + "/graph-algorithms") {};
+    "HFrameNet"             = self.callCabal2nix "HFrameNet" (language-engine + "/HFrameNet") {};
+    "lexicon"               = self.callCabal2nix "lexicon" (language-engine + "/lexicon") {};
+    "lexicon-builder"       = self.callCabal2nix "lexicon-builder" (language-engine + "/lexicon-builder") {};
 
-    "semantic-role-labeler" = self.callPackage (import (language-engine + "/semantic-role-labeler")) {};
-    "semantic-types"        = self.callPackage (import (language-engine + "/semantic-types")) {};
-    "syntactic-analysis"    = self.callPackage (import (language-engine + "/syntactic-analysis")) {};
-    "time-tagger"           = self.callPackage (import (language-engine + "/time-tagger")) {};
+    "multi-word-tagger"     = self.callCabal2nix "multi-word-tagger" (language-engine + "/multi-word-tagger") {};
 
-    "VerbNet"               = self.callPackage (import (language-engine + "/VerbNet")) {};
-    "wiki-ner"              = self.callPackage (import (language-engine + "/wiki-ner")) {};
+    "OntoNotes"             = self.callCabal2nix "OntoNotes" (language-engine + "/OntoNotes") {};
+    "PropBank"              = self.callCabal2nix "PropBank" (language-engine + "/PropBank") {};
+    "semantic-role-labeler" = self.callCabal2nix "semantic-role-labeler" (language-engine + "/semantic-role-labeler") {};
+    "semantic-types"        = self.callCabal2nix "semantic-types" (language-engine + "/semantic-types") {};
+    "syntactic-analysis"    = self.callCabal2nix "syntactic-analysis" (language-engine + "/syntactic-analysis") {};
+    "time-tagger"           = self.callCabal2nix "time-tagger" (language-engine + "/time-tagger") {};
+    "VerbNet"               = self.callCabal2nix "VerbNet" (language-engine + "/VerbNet") {};
+    "wiki-ner"              = self.callCabal2nix "wiki-ner" (language-engine + "/wiki-ner") {};
 
   };
   ukb = import (uphere-nix-overlay + "/nix/cpp-modules/ukb.nix") { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
