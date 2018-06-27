@@ -22,6 +22,7 @@
 , stdenv
 , jdk
 , fasttext
+, hs-ogdf
 }:
 
 let
@@ -62,8 +63,20 @@ let
     self: super: {
       "HUKB-driver" = self.callPackage (import (HUKB + "/HUKB-driver")) {};
     };
+
+
+  ogdf = pkgs.callPackage hs-ogdf { };
+  OGDFnix = import (hs-ogdf + "/gen/default.nix") {
+              inherit (pkgs) stdenv;
+              haskellPackages = haskellPackages1;
+            };
+  hsconfig5 = self: super: {
+                "OGDF" = self.callPackage OGDFnix { inherit ogdf; };
+              };
 in
   self: super: (hsconfig1 self super //
                 hsconfig2 self super //
                 hsconfig3 self super //
-                hsconfig4 self super)
+                hsconfig4 self super //
+                hsconfig5 self super
+                )

@@ -17,8 +17,8 @@ let
 
     fficxxSrc = fetchgit {
                   url = "git://github.com/wavewave/fficxx.git";
-                  rev = "c75ce1be0227afaff7c77bc0fc9ef8d19cdcb9bc";
-                  sha256 = "18y9k3va411n8vh1w93b24jp3xyrq1fksdvbx4h7qpv5917y3vn9";
+                  rev = "9b151b3a0dc31fd1a4b4682dfbc8092143b97a86";
+                  sha256 = "0scwl1vyyf9j1ssy4zf85r988lyi3jsmf7aqrvjiacg2jz7194da";
                 };
 
     protocol-buffers-src = fetchgit {
@@ -141,7 +141,7 @@ in self: super: {
         }:
         mkDerivation {
           pname = "fficxx";
-          version = "0.3.999";
+          version = "0.4.0";
           src = fficxxSrc + "/fficxx";
           libraryHaskellDepends = [
             base bytestring Cabal containers data-default directory either
