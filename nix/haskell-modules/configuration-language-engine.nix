@@ -26,8 +26,15 @@
 }:
 
 let
+  # TODO: this is a dup with configuration-ghc-8.2.x.nix.
+  #       we need to seperate out src.nix from configuration.nix
+  fficxxSrc = fetchgit {
+                url = "https://github.com/wavewave/fficxx";
+                rev = "e05a88302bc07c576f4cc72aec9f6b9f3f961f23";
+                sha256 = "0c4yk7bnrn13ma7pp0yhvyq51414d2z8ahll4vxgl2qgyskp418c";
+              };
 
-  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs; };
+  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs fficxxSrc; };
   haskellPackages1 = pkgs.haskell.packages.ghc821.override { overrides = hsconfig1; };
 
   ######################
@@ -37,13 +44,6 @@ let
   ukb = import (uphere-nix-overlay + "/nix/cpp-modules/ukb.nix") { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
   ogdf = pkgs.callPackage hs-ogdf { };
 
-  # TODO: this is a dup with configuration-ghc-8.2.x.nix.
-  #       we need to seperate out src.nix from configuration.nix
-  fficxxSrc = fetchgit {
-                url = "https://github.com/wavewave/fficxx";
-                rev = "63a52aed0cc033927af3ad0b745ba647fe873292";
-                sha256 = "1g150gchbg22134wx6qpi683drccxn80sb4a39lwya9bkldwilla";
-              };
 
   stdcxxNix   = import (fficxxSrc + "/stdcxx-gen/default.nix") {
                   inherit (pkgs) stdenv;

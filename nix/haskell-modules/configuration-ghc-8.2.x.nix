@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, fficxxSrc }:
 
 with pkgs;
 
@@ -15,11 +15,6 @@ let
       sha256 = "1g97vi8jmp7n783s0kbk5vhrh4kjqf619nhw3qxjjlpz08vhjr9m";
     };
 
-    fficxxSrc = fetchgit {
-                  url = "https://github.com/wavewave/fficxx";
-                  rev = "63a52aed0cc033927af3ad0b745ba647fe873292";
-                  sha256 = "1g150gchbg22134wx6qpi683drccxn80sb4a39lwya9bkldwilla";
-                };
 
     protocol-buffers-src = fetchgit {
       url = "git://github.com/k-bx/protocol-buffers.git";
