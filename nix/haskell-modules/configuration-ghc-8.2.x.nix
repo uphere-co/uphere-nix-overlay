@@ -16,9 +16,9 @@ let
     };
 
     fficxxSrc = fetchgit {
-                  url = "git://github.com/wavewave/fficxx.git";
-                  rev = "9b151b3a0dc31fd1a4b4682dfbc8092143b97a86";
-                  sha256 = "0scwl1vyyf9j1ssy4zf85r988lyi3jsmf7aqrvjiacg2jz7194da";
+                  url = "https://github.com/wavewave/fficxx";
+                  rev = "63a52aed0cc033927af3ad0b745ba647fe873292";
+                  sha256 = "1g150gchbg22134wx6qpi683drccxn80sb4a39lwya9bkldwilla";
                 };
 
     protocol-buffers-src = fetchgit {
@@ -133,36 +133,9 @@ in self: super: {
            license = stdenv.lib.licenses.publicDomain;
          }) {};
 
-      "fficxx" = self.callPackage
-        ({ mkDerivation, base, bytestring, Cabal, containers, data-default
-        , directory, either, errors, filepath, hashable, haskell-src-exts
-        , lens, mtl, process, pureMD5, split, stdenv, template
-        , template-haskell, text, transformers, unordered-containers
-        }:
-        mkDerivation {
-          pname = "fficxx";
-          version = "0.4.0";
-          src = fficxxSrc + "/fficxx";
-          libraryHaskellDepends = [
-            base bytestring Cabal containers data-default directory either
-            errors filepath hashable haskell-src-exts lens mtl process pureMD5
-            split template template-haskell text transformers
-            unordered-containers
-          ];
-          description = "automatic C++ binding generation";
-          license = stdenv.lib.licenses.bsd3;
-        }) {};
+      "fficxx" = self.callCabal2nix "fficxx" (fficxxSrc + "/fficxx") {};
 
-      "fficxx-runtime" = self.callPackage
-        ({ mkDerivation, base, bytestring, stdenv, template-haskell }:
-         mkDerivation {
-           pname = "fficxx-runtime";
-           version = "0.3";
-           src = fficxxSrc + "/fficxx-runtime";
-           libraryHaskellDepends = [ base bytestring template-haskell ];
-           description = "Runtime for fficxx-generated library";
-           license = stdenv.lib.licenses.bsd3;
-         }) {};
+      "fficxx-runtime" = self.callCabal2nix "fficxx-runtime" (fficxxSrc + "/fficxx-runtime") {};
 
       "product-profunctors" = self.callPackage
          ({ mkDerivation, base, contravariant, profunctors, stdenv, tagged
