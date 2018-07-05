@@ -6,9 +6,9 @@
 , HUKB
 , network-transport-uphere
 , language-engine
-, nlp-pipeline
+#, nlp-pipeline
 , nlp-shared-types
-, compute-engine
+#, compute-engine
 , textview
 , uphere-db
 , uphere-network-util
@@ -85,11 +85,10 @@ let
     "HCoreNLP-Proto"        = self.callPackage (import (HCoreNLP + "/HCoreNLP-Proto")) {};
     "network-transport-uphere" = self.callPackage (import network-transport-uphere) {};
     "newsapi"               = self.callPackage (import (fetchfin + "/newsapi")) {};
-    "nlp-pipeline"          = self.callPackage (import nlp-pipeline) {};
+    #"nlp-pipeline"          = self.callPackage (import nlp-pipeline) {};
     "nlp-shared-types"      = self.callPackage (import nlp-shared-types) {};
     "rss-scraper"           = self.callPackage (import (fetchfin + "/rss-scraper")) {};
 
-    "compute-engine"        = self.callPackage (import compute-engine) {};
     "textview"              = self.callPackage (import textview) {};
     "uphere-db"             = self.callPackage (import uphere-db) {};
     "uphere-network-util" = self.callPackage (import uphere-network-util) {};
