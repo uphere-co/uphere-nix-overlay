@@ -6,9 +6,8 @@
 , HUKB
 , network-transport-uphere
 , language-engine
-, nlp-pipeline
 , nlp-shared-types
-, compute-engine
+, compute-pipeline
 , textview
 , uphere-db
 , uphere-network-util
@@ -29,11 +28,12 @@ let
   #
   hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-language-engine.nix") {
                 inherit pkgs uphere-nix-overlay event-analyzer fetchfin HCoreNLP HUKB network-transport-uphere;
-                inherit language-engine nlp-pipeline nlp-shared-types compute-engine textview uphere-db;
+                inherit language-engine nlp-shared-types textview uphere-db;
                 inherit uphere-network-util uphere-opaleye corenlp corenlp_models;
                 inherit fetchgit fetchurl haskellPackages stdenv jdk fasttext hs-ogdf;
               };
   hsconfig2 = self: super: {
+    # language-engine
     "graph-algorithms"      = self.callCabal2nix "graph-algorithms" (language-engine + "/graph-algorithms") {};
     "HFrameNet"             = self.callCabal2nix "HFrameNet" (language-engine + "/HFrameNet") {};
     "lexicon"               = self.callCabal2nix "lexicon" (language-engine + "/lexicon") {};
