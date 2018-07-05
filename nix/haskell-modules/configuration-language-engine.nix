@@ -8,7 +8,6 @@
 , language-engine
 , nlp-shared-types
 , textview
-, uphere-db
 , uphere-network-util
 , uphere-opaleye
 , corenlp
@@ -87,7 +86,6 @@ let
     "rss-scraper"           = self.callPackage (import (fetchfin + "/rss-scraper")) {};
 
     "textview"              = self.callPackage (import textview) {};
-    "uphere-db"             = self.callPackage (import uphere-db) {};
     "uphere-network-util" = self.callPackage (import uphere-network-util) {};
     "uphere-opaleye"        = self.callPackage (import uphere-opaleye) {};
 
