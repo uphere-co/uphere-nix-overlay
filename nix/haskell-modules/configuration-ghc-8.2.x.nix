@@ -28,8 +28,15 @@ let
       sha256 = "0dhdxnb3k9z6mcsaqk78fpj3p6s8ndjmr6s8i00bwbv6g2s8dxs5";
     };
 
-
+    boxes-src = fetchgit {
+      url = "git://github.com/wavewave/boxes.git";
+      rev = "6850892346a506fc608af3ee852d3f07ffc21847";
+      sha256 = "0yh5an716g4b68qfnq73nq3gcaarjn60cbf55xa6f82zlj8rl854";
+    };
+    
 in self: super: {
+      "boxes" = self.callCabal2nix "boxes" boxes-src {};
+      
       "html-entities" = haskell.lib.overrideCabal super.html-entities (drv: {
         src = fetchgit {
           url = "git://github.com/nikita-volkov/html-entities.git";
