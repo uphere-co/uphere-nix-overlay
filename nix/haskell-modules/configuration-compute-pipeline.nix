@@ -9,7 +9,6 @@
 , nlp-shared-types
 , compute-pipeline
 , textview
-, uphere-db
 , uphere-network-util
 , uphere-opaleye
 , corenlp
@@ -28,7 +27,7 @@ let
   #
   hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-language-engine.nix") {
                 inherit pkgs uphere-nix-overlay event-analyzer fetchfin HCoreNLP HUKB network-transport-uphere;
-                inherit language-engine nlp-shared-types textview uphere-db;
+                inherit language-engine nlp-shared-types textview;
                 inherit uphere-network-util uphere-opaleye corenlp corenlp_models;
                 inherit fetchgit fetchurl haskellPackages stdenv jdk fasttext hs-ogdf;
               };
