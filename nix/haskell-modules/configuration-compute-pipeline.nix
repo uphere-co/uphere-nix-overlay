@@ -6,7 +6,6 @@
 , HUKB
 , network-transport-uphere
 , language-engine
-#, nlp-pipeline
 , nlp-shared-types
 , compute-pipeline
 , textview
@@ -34,7 +33,6 @@ let
                 inherit fetchgit fetchurl haskellPackages stdenv jdk fasttext hs-ogdf;
               };
   hsconfig2 = self: super: {
-    #"compute-worker"        = self.callCabal2nix "compute-worker" (compute-pipeline + "/compute-worker") {};
     # language-engine
     "graph-algorithms"      = self.callCabal2nix "graph-algorithms" (language-engine + "/graph-algorithms") {};
     "HFrameNet"             = self.callCabal2nix "HFrameNet" (language-engine + "/HFrameNet") {};
