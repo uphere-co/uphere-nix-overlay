@@ -38,9 +38,14 @@ let
                 inherit fetchgit fetchurl haskellPackages stdenv jdk fasttext hs-ogdf;
               };
   hsconfig3 = self: super: {
-    "compute-worker" = self.callCabal2nix "compute-worker" (compute-pipeline + "/compute-worker") {};
-    "nlp-pipeline"   = self.callCabal2nix "nlp-pipeline" (compute-pipeline + "/nlp-pipeline") {};
-    "uphere-db"      = self.callCabal2nix "uphere-db" (compute-pipeline + "/uphere-db") {};
+    "cloud-haskell-util" = self.callCabal2nix "cloud-haskell-util" (compute-pipeline + "/cloud-haskell-util") {};
+    "compute-worker"     = self.callCabal2nix "compute-worker" (compute-pipeline + "/compute-worker") {};
+    "jobqueue-client"    = self.callCabal2nix "jobqueue-client" (compute-pipeline + "/jobqueue-client") {};
+    "jobqueue-server"    = self.callCabal2nix "jobqueue-server" (compute-pipeline + "/jobqueue-server") {};
+    "jobqueue-types"     = self.callCabal2nix "jobqueue-types" (compute-pipeline + "/jobqueue-types") {};
+    "nlp-pipeline"       = self.callCabal2nix "nlp-pipeline" (compute-pipeline + "/nlp-pipeline") {};
+    "storage-manager"    = self.callCabal2nix "storage-manager" (compute-pipeline + "/storage-manager") {};
+    "uphere-db"          = self.callCabal2nix "uphere-db" (compute-pipeline + "/uphere-db") {};
   };
 in
   self: super: (hsconfig1 self super // hsconfig2 self super // hsconfig3 self super)
