@@ -43,8 +43,8 @@ let
     "jobqueue-client"    = self.callCabal2nix "jobqueue-client" (compute-pipeline + "/jobqueue-client") {};
     "jobqueue-server"    = self.callCabal2nix "jobqueue-server" (compute-pipeline + "/jobqueue-server") {};
     "jobqueue-types"     = self.callCabal2nix "jobqueue-types" (compute-pipeline + "/jobqueue-types") {};
-    "nlp-pipeline"       = self.callCabal2nix "nlp-pipeline" (compute-pipeline + "/nlp-pipeline") {};
     "storage-manager"    = self.callCabal2nix "storage-manager" (compute-pipeline + "/storage-manager") {};
+    "task-reuters"       = self.callCabal2nix "task-reuters" (compute-pipeline + "/task-reuters") {};
     "uphere-db"          = self.callCabal2nix "uphere-db" (compute-pipeline + "/uphere-db") {};
   };
 in
