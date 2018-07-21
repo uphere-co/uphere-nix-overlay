@@ -23,12 +23,11 @@
 }:
 
 let
-  # TODO: this is a dup with configuration-ghc-8.2.x.nix.
-  #       we need to seperate out src.nix from configuration.nix
+  # TODO: we should refactor this out.
   fficxxSrc = fetchgit {
                 url = "https://github.com/wavewave/fficxx";
-                rev = "e05a88302bc07c576f4cc72aec9f6b9f3f961f23";
-                sha256 = "0c4yk7bnrn13ma7pp0yhvyq51414d2z8ahll4vxgl2qgyskp418c";
+                rev = "971207e9b413d99caedc36d17d8d0a88c09309a6";
+                sha256 = "0v6ga7manj33zrjdp4s08a0sdd5id0z3k7llpcfiyfl78i782y0z";
               };
 
   hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs fficxxSrc; };
