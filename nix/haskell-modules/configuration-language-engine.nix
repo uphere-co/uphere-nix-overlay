@@ -26,12 +26,14 @@ let
   # TODO: we should refactor this out.
   fficxxSrc = fetchgit {
                 url = "https://github.com/wavewave/fficxx";
-                rev = "971207e9b413d99caedc36d17d8d0a88c09309a6";
-                sha256 = "0v6ga7manj33zrjdp4s08a0sdd5id0z3k7llpcfiyfl78i782y0z";
+                rev = "38f6da9be7ec70e5a64f1e377a81974a27ea89ad";
+                sha256 = "03bzmk9mj5kfs75hcm6pyjfdzrzlfhq76zdvsdzvwzqawfbflpar";
+                #rev = "971207e9b413d99caedc36d17d8d0a88c09309a6";
+                #sha256 = "0v6ga7manj33zrjdp4s08a0sdd5id0z3k7llpcfiyfl78i782y0z";
               };
 
-  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.2.x.nix") { inherit pkgs fficxxSrc; };
-  haskellPackages1 = pkgs.haskell.packages.ghc821.override { overrides = hsconfig1; };
+  hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.4.x.nix") { inherit pkgs fficxxSrc; };
+  haskellPackages1 = pkgs.haskell.packages.ghc843.override { overrides = hsconfig1; };
 
   ######################
   ## FFICXX GENERATED ##
@@ -40,11 +42,10 @@ let
   ukb = import (uphere-nix-overlay + "/nix/cpp-modules/ukb.nix") { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
   ogdf = pkgs.callPackage hs-ogdf { };
 
-
-  stdcxxNix   = import (fficxxSrc + "/stdcxx-gen/default.nix") {
-                  inherit (pkgs) stdenv;
-                  haskellPackages = haskellPackages1;
-                };
+  stdcxxNix = import (fficxxSrc + "/stdcxx-gen/default.nix") {
+    inherit (pkgs) stdenv;
+    haskellPackages = haskellPackages1;
+  };
 
   fastTextNix = import (language-engine + "/fasttext/default.nix") {
                   inherit stdenv;
