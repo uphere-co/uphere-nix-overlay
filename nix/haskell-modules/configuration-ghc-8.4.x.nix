@@ -47,6 +47,8 @@ in self: super: {
        };
      });
 
+     "distributed-process-lifted" =
+       haskell.lib.dontCheck super.distributed-process-lifted;
 
       #"network-multicast" = haskell.lib.overrideCabal super.network-multicast (drv: {
       #   version = "0.2.0";
