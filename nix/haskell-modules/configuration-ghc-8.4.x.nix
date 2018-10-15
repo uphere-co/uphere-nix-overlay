@@ -30,22 +30,22 @@ let
     #  sha256 = "0dhdxnb3k9z6mcsaqk78fpj3p6s8ndjmr6s8i00bwbv6g2s8dxs5";
     #};
 
-    # boxes-src = fetchgit {
-    #   url = "git://github.com/wavewave/boxes.git";
-    #  rev = "6850892346a506fc608af3ee852d3f07ffc21847";
-    #  sha256 = "0yh5an716g4b68qfnq73nq3gcaarjn60cbf55xa6f82zlj8rl854";
-    #};
+    boxes-src = fetchgit {
+      url = "git://github.com/wavewave/boxes.git";
+      rev = "6850892346a506fc608af3ee852d3f07ffc21847";
+      sha256 = "0yh5an716g4b68qfnq73nq3gcaarjn60cbf55xa6f82zlj8rl854";
+    };
     
 in self: super: {
-      #"boxes" = self.callCabal2nix "boxes" boxes-src {};
+     "boxes" = self.callCabal2nix "boxes" boxes-src {};
       
-      "html-entities" = haskell.lib.overrideCabal super.html-entities (drv: {
-        src = fetchgit {
-          url = "git://github.com/nikita-volkov/html-entities.git";
-          rev = "534617780c6ebd559475f336dba64a602d54fc9f";
-          sha256 = "1cfavvwrk6w4s392csabk7k5qk5pmafrd5vkjszhb02arlzpzr04";
-        };
-      });
+     "html-entities" = haskell.lib.overrideCabal super.html-entities (drv: {
+       src = fetchgit {
+         url = "git://github.com/nikita-volkov/html-entities.git";
+         rev = "534617780c6ebd559475f336dba64a602d54fc9f";
+         sha256 = "1cfavvwrk6w4s392csabk7k5qk5pmafrd5vkjszhb02arlzpzr04";
+       };
+     });
 
 
       #"network-multicast" = haskell.lib.overrideCabal super.network-multicast (drv: {
