@@ -28,8 +28,6 @@ let
                 url = "https://github.com/wavewave/fficxx";
                 rev = "38f6da9be7ec70e5a64f1e377a81974a27ea89ad";
                 sha256 = "03bzmk9mj5kfs75hcm6pyjfdzrzlfhq76zdvsdzvwzqawfbflpar";
-                #rev = "971207e9b413d99caedc36d17d8d0a88c09309a6";
-                #sha256 = "0v6ga7manj33zrjdp4s08a0sdd5id0z3k7llpcfiyfl78i782y0z";
               };
 
   hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.4.x.nix") { inherit pkgs fficxxSrc; };
