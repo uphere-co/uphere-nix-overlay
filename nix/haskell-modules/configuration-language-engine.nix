@@ -23,12 +23,7 @@
 }:
 
 let
-  # TODO: we should refactor this out.
-  fficxxSrc = fetchgit {
-                url = "https://github.com/wavewave/fficxx";
-                rev = "38f6da9be7ec70e5a64f1e377a81974a27ea89ad";
-                sha256 = "03bzmk9mj5kfs75hcm6pyjfdzrzlfhq76zdvsdzvwzqawfbflpar";
-              };
+  fficxxSrc = pkgs.callPackage ./fficxx.nix {};
 
   hsconfig1 = import (uphere-nix-overlay + "/nix/haskell-modules/configuration-ghc-8.4.x.nix") { inherit pkgs fficxxSrc; };
   haskellPackages1 = pkgs.haskell.packages.ghc843.override { overrides = hsconfig1; };
@@ -36,6 +31,8 @@ let
   ######################
   ## FFICXX GENERATED ##
   ######################
+
+  ## TODO: librarize this.
 
   ukb = import (uphere-nix-overlay + "/nix/cpp-modules/ukb.nix") { inherit stdenv fetchgit fetchurl; boost = pkgs.boost; };
   ogdf = pkgs.callPackage hs-ogdf { };
