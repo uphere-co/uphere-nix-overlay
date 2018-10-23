@@ -40,16 +40,18 @@ let
                 inherit textview uphere-network-util uphere-opaleye corenlp corenlp_models;
                 inherit fetchgit fetchurl haskellPackages stdenv jdk fasttext hs-ogdf;
               };
+  # TODO: auto-generate this
   hsconfig3 = self: super: {
-    "cloud-haskell-util" = self.callCabal2nix "cloud-haskell-util" (compute-pipeline + "/cloud-haskell-util") {};
-    "compute-worker"     = self.callCabal2nix "compute-worker" (compute-pipeline + "/compute-worker") {};
-    "jobqueue-client"    = self.callCabal2nix "jobqueue-client" (compute-pipeline + "/jobqueue-client") {};
-    "jobqueue-server"    = self.callCabal2nix "jobqueue-server" (compute-pipeline + "/jobqueue-server") {};
-    "jobqueue-types"     = self.callCabal2nix "jobqueue-types" (compute-pipeline + "/jobqueue-types") {};
-    "storage-manager"    = self.callCabal2nix "storage-manager" (compute-pipeline + "/storage-manager") {};
-    "task-corenlp"       = self.callCabal2nix "task-corenlp" (compute-pipeline + "/task-corenlp") {};
-    "task-reuters"       = self.callCabal2nix "task-reuters" (compute-pipeline + "/task-reuters") {};
-    "uphere-db"          = self.callCabal2nix "uphere-db" (compute-pipeline + "/uphere-db") {};
+    "cloud-haskell-util"   = self.callCabal2nix "cloud-haskell-util" (compute-pipeline + "/cloud-haskell-util") {};
+    "compute-worker"       = self.callCabal2nix "compute-worker" (compute-pipeline + "/compute-worker") {};
+    "jobqueue-client"      = self.callCabal2nix "jobqueue-client" (compute-pipeline + "/jobqueue-client") {};
+    "jobqueue-server"      = self.callCabal2nix "jobqueue-server" (compute-pipeline + "/jobqueue-server") {};
+    "jobqueue-types"       = self.callCabal2nix "jobqueue-types" (compute-pipeline + "/jobqueue-types") {};
+    "storage-manager"      = self.callCabal2nix "storage-manager" (compute-pipeline + "/storage-manager") {};
+    "task-corenlp"         = self.callCabal2nix "task-corenlp" (compute-pipeline + "/task-corenlp") {};
+    "task-reuters"         = self.callCabal2nix "task-reuters" (compute-pipeline + "/task-reuters") {};
+    "task-semantic-parser" = self.callCabal2nix "task-semantic-parser" (compute-pipeline + "/task-semantic-parser") {};
+    "uphere-db"            = self.callCabal2nix "uphere-db" (compute-pipeline + "/uphere-db") {};
   };
   hsconfig4 = self: super: {
     "error-handler" = self.callCabal2nix "error-handler" error-handler {};
