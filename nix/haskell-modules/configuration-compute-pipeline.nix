@@ -48,6 +48,7 @@ let
     "time-tagger"           = self.callCabal2nix "time-tagger" (language-engine + "/time-tagger") {};
     "VerbNet"               = self.callCabal2nix "VerbNet" (language-engine + "/VerbNet") {};
     "wiki-ner"              = self.callCabal2nix "wiki-ner" (language-engine + "/wiki-ner") {};
+    "xxhash-ffi-renamed"    = self.callCabal2nix "xxhash-ffi-renamed" (language-engine + "/xxhash-ffi-renamed") {};
   };
 in
   self: super: (hsconfig1 self super // hsconfig2 self super)
