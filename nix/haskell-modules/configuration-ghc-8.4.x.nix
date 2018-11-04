@@ -9,6 +9,12 @@ let
       sha256 = "0yh5an716g4b68qfnq73nq3gcaarjn60cbf55xa6f82zlj8rl854";
     };
 
+    ghc-hotswap-src = fetchgit {
+      url = "git://github.com/fbsamples/ghc-hotswap.git";
+      rev = "0c2859cbbc6c8708eace3087ab163db2b6648d4c";
+      sha256 = "1lyhaqcdi0yjai6l4nyn8namy8c1wsm87m5m6yi7m28psdijhkr8";
+    };
+
 in self: super: {
      "boxes" = self.callCabal2nix "boxes" boxes-src {};
 
@@ -27,6 +33,11 @@ in self: super: {
       "fficxx" = self.callCabal2nix "fficxx" (fficxxSrc + "/fficxx") {};
 
       "fficxx-runtime" = self.callCabal2nix "fficxx-runtime" (fficxxSrc + "/fficxx-runtime") {};
+
+      "ghc-hotswap" = self.callCabal2nix "ghc-hotswap" (ghc-hotswap-src + "/ghc-hotswap") {};
+      "ghc-hotswap-so" = self.callCabal2nix "ghc-hotswap-so" (ghc-hotswap-src + "/ghc-hotswap-so") {};
+      "ghc-hotswap-types" = self.callCabal2nix "ghc-hotswap-types" (ghc-hotswap-src + "/ghc-hotswap-types") {};
+
 
       "yayaml" = self.callPackage
         ({ mkDerivation, attoparsec, base, bytestring, filepath, scientific
