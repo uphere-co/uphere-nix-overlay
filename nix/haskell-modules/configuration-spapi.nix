@@ -43,6 +43,8 @@ let
   # TODO: auto-generate this
   hsconfig3 = self: super: {
     "cloud-haskell-util"   = self.callCabal2nix "cloud-haskell-util" (compute-pipeline + "/cloud-haskell-util") {};
+    "compute-so"           = self.callCabal2nix "compute-so" (compute-pipeline + "/compute-so") {};
+    "compute-so-types"     = self.callCabal2nix "compute-so-types" (compute-pipeline + "/compute-so-types") {};
     "compute-worker"       = self.callCabal2nix "compute-worker" (compute-pipeline + "/compute-worker") {};
     "jobqueue-client"      = self.callCabal2nix "jobqueue-client" (compute-pipeline + "/jobqueue-client") {};
     "jobqueue-server"      = self.callCabal2nix "jobqueue-server" (compute-pipeline + "/jobqueue-server") {};
