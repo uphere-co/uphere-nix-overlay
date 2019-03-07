@@ -15,48 +15,52 @@ let
       sha256 = "1lyhaqcdi0yjai6l4nyn8namy8c1wsm87m5m6yi7m28psdijhkr8";
     };
 
-in self: super: {
-     "boxes" = self.callCabal2nix "boxes" boxes-src {};
+in
 
-     "html-entities" = haskell.lib.overrideCabal super.html-entities (drv: {
-       src = fetchgit {
-         url = "git://github.com/nikita-volkov/html-entities.git";
-         rev = "534617780c6ebd559475f336dba64a602d54fc9f";
-         sha256 = "1cfavvwrk6w4s392csabk7k5qk5pmafrd5vkjszhb02arlzpzr04";
-       };
-     });
+self: super: {
 
-     "distributed-process-lifted" =
-       haskell.lib.dontCheck super.distributed-process-lifted;
+  "boxes" = self.callCabal2nix "boxes" boxes-src {};
+
+  "html-entities" = haskell.lib.overrideCabal super.html-entities (drv: {
+    src = fetchgit {
+      url = "git://github.com/nikita-volkov/html-entities.git";
+      rev = "534617780c6ebd559475f336dba64a602d54fc9f";
+      sha256 = "1cfavvwrk6w4s392csabk7k5qk5pmafrd5vkjszhb02arlzpzr04";
+    };
+  });
+
+  "distributed-process-lifted" =
+    haskell.lib.dontCheck super.distributed-process-lifted;
 
 
-      "fficxx" = self.callCabal2nix "fficxx" (fficxxSrc + "/fficxx") {};
+  "fficxx" = self.callCabal2nix "fficxx" (fficxxSrc + "/fficxx") {};
 
-      "fficxx-runtime" = self.callCabal2nix "fficxx-runtime" (fficxxSrc + "/fficxx-runtime") {};
+  "fficxx-runtime" = self.callCabal2nix "fficxx-runtime" (fficxxSrc + "/fficxx-runtime") {};
 
-      "ghc-hotswap" = self.callCabal2nix "ghc-hotswap" (ghc-hotswap-src + "/ghc-hotswap") {};
-      "ghc-hotswap-so" = self.callCabal2nix "ghc-hotswap-so" (ghc-hotswap-src + "/ghc-hotswap-so") {};
-      "ghc-hotswap-types" = self.callCabal2nix "ghc-hotswap-types" (ghc-hotswap-src + "/ghc-hotswap-types") {};
+  "ghc-hotswap" = self.callCabal2nix "ghc-hotswap" (ghc-hotswap-src + "/ghc-hotswap") {};
+  "ghc-hotswap-so" = self.callCabal2nix "ghc-hotswap-so" (ghc-hotswap-src + "/ghc-hotswap-so") {};
+  "ghc-hotswap-types" = self.callCabal2nix "ghc-hotswap-types" (ghc-hotswap-src + "/ghc-hotswap-types") {};
 
-      "pipes-text" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.pipes-text);
-      "streaming-utils" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.streaming-utils);
+  "pipes-text" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.pipes-text);
+  "streaming-utils" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.streaming-utils);
 
-      "yayaml" = self.callPackage
-        ({ mkDerivation, attoparsec, base, bytestring, filepath, scientific
-         , stdenv, text, transformers
-         }:
-         mkDerivation {
-           pname = "yayaml";
-           version = "0.0.999";
-           src = fetchgit {
-             url = "https://github.com/wavewave/yayaml.git";
-             rev = "68ef0ef68e5d1e4e896a0884f9b9df316cff35ec";
-             sha256 = "1zhpm47ivk4nn2l39z50smvg1mws5rma9bq2qbfs62dszs1y7mvj";
-           };
-           libraryHaskellDepends = [
-             attoparsec base bytestring filepath scientific text transformers
-           ];
-           description = "Yet Another YAML library";
-           license = stdenv.lib.licenses.bsd3;
-         }) {};
-    }
+
+  "yayaml" = self.callPackage
+     ({ mkDerivation, attoparsec, base, bytestring, filepath, scientific
+      , stdenv, text, transformers
+      }:
+      mkDerivation {
+        pname = "yayaml";
+        version = "0.0.999";
+        src = fetchgit {
+          url = "https://github.com/wavewave/yayaml.git";
+          rev = "68ef0ef68e5d1e4e896a0884f9b9df316cff35ec";
+          sha256 = "1zhpm47ivk4nn2l39z50smvg1mws5rma9bq2qbfs62dszs1y7mvj";
+        };
+        libraryHaskellDepends = [
+          attoparsec base bytestring filepath scientific text transformers
+        ];
+        description = "Yet Another YAML library";
+        license = stdenv.lib.licenses.bsd3;
+      }) {};
+}
