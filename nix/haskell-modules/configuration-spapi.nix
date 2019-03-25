@@ -1,6 +1,5 @@
 { pkgs
 , uphere-nix-overlay
-, error-handler
 , event-analyzer
 , fetchfin
 , HCoreNLP
@@ -55,8 +54,5 @@ let
     "task-semantic-parser" = self.callCabal2nix "task-semantic-parser" (compute-pipeline + "/task-semantic-parser") {};
     "uphere-db"            = self.callCabal2nix "uphere-db" (compute-pipeline + "/uphere-db") {};
   };
-  hsconfig4 = self: super: {
-    "error-handler" = self.callCabal2nix "error-handler" error-handler {};
-  };
 in
-  self: super: (hsconfig1 self super // hsconfig2 self super // hsconfig3 self super // hsconfig4 self super)
+  self: super: (hsconfig1 self super // hsconfig2 self super // hsconfig3 self super)
