@@ -41,7 +41,9 @@ self: super: {
   "ghc-hotswap-so" = self.callCabal2nix "ghc-hotswap-so" (ghc-hotswap-src + "/ghc-hotswap-so") {};
   "ghc-hotswap-types" = self.callCabal2nix "ghc-hotswap-types" (ghc-hotswap-src + "/ghc-hotswap-types") {};
 
-  "pipes-text" = haskell.lib.doJailbreak (super.pipes-text);
+  "pipes-text" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.pipes-text);
+  "streaming-utils" = haskell.lib.dontCheck (haskell.lib.doJailbreak super.streaming-utils);
+
 
   "yayaml" = self.callPackage
      ({ mkDerivation, attoparsec, base, bytestring, filepath, scientific
